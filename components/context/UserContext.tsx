@@ -17,7 +17,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider)
 			.then((res) => {
-				console.log(user);
+				// console.log(user);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -47,6 +47,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 					const { jwt, user } = await authenticate(accessToken);
 					setUser(user);
 					setToken(jwt);
+					console.log(jwt, user);
 				} catch (error: any) {
 					console.log(error);
 				}
