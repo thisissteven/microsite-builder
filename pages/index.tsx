@@ -3,13 +3,15 @@ import type { NextPage } from "next";
 import { AiFillEye } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../components/context/UserContext";
+import Layout from "../components/elements/Layout";
 
 const Home: NextPage = () => {
-	const { user } = useUserContext();
+	const { user, logout } = useUserContext();
 
 	return (
-		<HStack alignItems="center" h="full">
+		<Layout>
 			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
+				<Button onClick={logout}>Logout</Button>
 				<Heading>
 					Create your own{" "}
 					<AnimatePresence exitBeforeEnter>
@@ -45,7 +47,7 @@ const Home: NextPage = () => {
 					</Tooltip>
 				</HStack>
 			</VStack>
-		</HStack>
+		</Layout>
 	);
 };
 

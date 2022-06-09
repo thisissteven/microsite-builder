@@ -18,7 +18,7 @@ const Navbar = () => {
 					shouldWrapChildren
 					placement="bottom-start"
 					opacity={0}
-					label={pathname === "/" ? "Click me to shorten a url :D" : "Home"}
+					label={pathname === "/" ? "Shorten URL here :D" : "Home"}
 					aria-label="A tooltip"
 				>
 					<Link href={pathname === "/" ? "/shorten" : "/"}>

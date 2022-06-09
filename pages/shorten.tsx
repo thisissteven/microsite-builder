@@ -12,16 +12,19 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import Navbar from "../components/elements/Navbar";
-import { AiFillEye } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../components/context/UserContext";
+import Layout from "../components/elements/Layout";
 
 const Shorten: NextPage = () => {
 	const { user } = useUserContext();
+    
+	const handleSubmit = () => {
+		console.log("dsa");
+	};
 
 	return (
-		<HStack alignItems="center" h="full">
+		<Layout>
 			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
 				<Heading>
 					Shorten any{" "}
@@ -41,8 +44,9 @@ const Shorten: NextPage = () => {
 				</Heading>
 
 				<FormControl>
-					<VStack spacing={4} px={4}>
+					<VStack spacing={4} px={{ base: 0, sm: 4 }}>
 						<Input
+							autoComplete="off"
 							_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 							_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 							p={1}
@@ -56,6 +60,7 @@ const Shorten: NextPage = () => {
 								stevenn.tech/
 							</FormLabel>
 							<Input
+								autoComplete="off"
 								_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 								_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 								p={1}
@@ -65,13 +70,13 @@ const Shorten: NextPage = () => {
 								size="sm"
 							/>
 						</HStack>
-						<Button alignSelf="flex-end" size="sm" variant="solid">
+						<Button onClick={handleSubmit} alignSelf="flex-end" size="sm" variant="solid">
 							Shorten URL
 						</Button>
 					</VStack>
 				</FormControl>
 			</VStack>
-		</HStack>
+		</Layout>
 	);
 };
 
