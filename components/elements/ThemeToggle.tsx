@@ -5,21 +5,10 @@ import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 
 const ToggleButton = () => {
 	const { toggleColorMode } = useColorMode();
-	const buttonColor = useColorModeValue("black", "white");
-	const buttonColorScheme = useColorModeValue("blackAlpha", "whiteAlpha");
 	const size = useBreakpointValue({ base: "sm", sm: "md" });
 
 	return (
-		<Button
-			onClick={toggleColorMode}
-			variant="ghost"
-			borderRadius="lg"
-			color={buttonColor}
-			colorScheme={buttonColorScheme}
-			transitionDuration="200ms"
-			size={size}
-			p={0}
-		>
+		<Button onClick={toggleColorMode} variant="ghost" borderRadius="lg" transitionDuration="200ms" size={size} p={0}>
 			<AnimatePresence exitBeforeEnter>
 				<IconButton
 					as={motion.div}
