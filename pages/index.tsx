@@ -1,43 +1,51 @@
-import { Container, Heading, HStack, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, HStack, Tooltip, useColorModeValue, VStack } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import { AiFillEye } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../components/context/UserContext";
-import LoginButton from "../components/elements/Button";
-import ToggleButton from "../components/elements/ThemeToggle";
 
 const Home: NextPage = () => {
-	const { user, signIn, logout } = useUserContext();
-	console.log(user, signIn, logout);
+	const { user } = useUserContext();
 
 	return (
-		<Container h="100vh" maxW="container.xl">
-			<VStack p={{ base: 2, sm: 8 }} pt={8} spacing={8}>
-				<HStack justifyContent="space-between" w="full" flexDir={{ base: "column-reverse", sm: "row" }}>
-					<Heading
-						size="md"
-						_hover={{ opacity: 0.5 }}
-						pt={{ base: 4, sm: 0 }}
-						textAlign="start"
+		<HStack alignItems="center" h="full">
+			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
+				<Heading>
+					Create your own{" "}
+					<AnimatePresence exitBeforeEnter>
+						<Box
+							as={motion.span}
+							key={useColorModeValue("light", "dark")}
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1, transition: { duration: 1 } }}
+							exit={{ opacity: 0 }}
+							color={useColorModeValue("red.400", "red.300")}
+						>
+							Microsite
+						</Box>
+					</AnimatePresence>{" "}
+					now!
+				</Heading>
+
+				<HStack spacing={{ base: 2, sm: 4 }}>
+					<Button leftIcon={<AiFillEye />} fontSize="sm" fontWeight="light" variant="link">
+						Preview Example
+					</Button>
+					<Tooltip
+						shouldWrapChildren
 						w="full"
-						transitionDuration="300ms"
-						cursor="pointer"
+						h="full"
+						opacity={0}
+						label={user === null ? "Please sign in before building :D" : ""}
+						aria-label="A tooltip"
 					>
-						stevenn.tech
-					</Heading>
-					<HStack
-						sx={{ margin: "0px !important" }}
-						spacing={4}
-						alignItems="center"
-						justifyContent="space-between"
-						w={{ base: "full", sm: "auto" }}
-					>
-						<ToggleButton />
-						<LoginButton variant="signup" onClick={signIn}>
-							Log In
-						</LoginButton>
-					</HStack>
+						<Button variant="solid" fontSize="sm" disabled={user === null}>
+							Start Building
+						</Button>
+					</Tooltip>
 				</HStack>
 			</VStack>
-		</Container>
+		</HStack>
 	);
 };
 
