@@ -30,7 +30,13 @@ const Item: React.FC<ItemProps> = ({ children, onClick }) => {
 	const itemActive = useColorModeValue("#E8E8E8", "#525252");
 	const itemHover = useColorModeValue("#D8D8D8", "#606060");
 	return (
-		<MenuItem onClick={onClick} _focus={{ bg: itemHover }} _hover={{ bg: itemHover }} _active={{ bg: itemActive }}>
+		<MenuItem
+			fontSize={{ base: "xs", sm: "sm" }}
+			onClick={onClick}
+			_focus={{ bg: itemHover }}
+			_hover={{ bg: itemHover }}
+			_active={{ bg: itemActive }}
+		>
 			{children}
 		</MenuItem>
 	);
