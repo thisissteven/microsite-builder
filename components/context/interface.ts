@@ -7,6 +7,7 @@ export interface ContextProviderProps {
 export interface UserContextValue {
 	user: any;
 	token: string;
+	loading: boolean;
 	setUser: React.Dispatch<any>;
 	signIn: () => void;
 	logout: () => void;

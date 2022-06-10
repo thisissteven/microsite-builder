@@ -12,13 +12,14 @@ export const useUserContext = () => useContext(UserContext);
 export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState("");
+	const [loading, setLoading] = useState(true);
 
 	const toast = useToast();
 
 	const signIn = () => {
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider)
-			.then(() => {
+			.then((res) => {
 				toast({
 					title: "Welcome aboard.",
 					description: "You can now create your own microsites!",
@@ -58,15 +59,15 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		};
 
 		const unsubscribe = onAuthStateChanged(auth, async (res: any) => {
-			if (res) {
-				try {
-					const { accessToken } = res;
-					const { jwt, user } = await authenticate(accessToken);
-					setUser(user);
-					setToken(jwt);
-				} catch (error: any) {
-					console.log(error);
-				}
+			try {
+				const { accessToken } = res;
+				const { jwt, user } = await authenticate(accessToken);
+				setUser(user);
+				setToken(jwt);
+			} catch (error: any) {
+				return;
+			} finally {
+				setLoading(false);
 			}
 		});
 		return unsubscribe;
@@ -75,6 +76,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const contextValue: UserContextValue = {
 		user,
 		token,
+		loading,
 		setUser,
 		signIn,
 		logout,
