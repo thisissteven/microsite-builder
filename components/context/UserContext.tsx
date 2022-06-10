@@ -4,6 +4,7 @@ import { auth } from "../config/Firebase";
 import axios from "axios";
 import { ContextProviderProps, UserContextValue } from "./interface";
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import { useToast } from "@chakra-ui/react";
 
 export const UserContext = createContext({} as UserContextValue);
 export const useUserContext = () => useContext(UserContext);
@@ -12,12 +13,20 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState("");
 
+	const toast = useToast();
+
 	const signIn = () => {
-		console.log("this was called");
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider)
-			.then((res) => {
-				// console.log(user);
+			.then(() => {
+				toast({
+					title: "Welcome aboard.",
+					description: "You can now create your own microsites!",
+					position: "bottom-right",
+					status: "success",
+					duration: 9000,
+					isClosable: true,
+				});
 			})
 			.catch((err) => console.log(err));
 	};
@@ -26,6 +35,14 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		signOut(auth).then(() => {
 			indexedDB.deleteDatabase("firebaseLocalStorageDb");
 			setUser(null);
+			toast({
+				title: "See you another time.",
+				description: "Signed out successfully",
+				position: "bottom-right",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+			});
 		});
 	};
 
@@ -47,7 +64,6 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 					const { jwt, user } = await authenticate(accessToken);
 					setUser(user);
 					setToken(jwt);
-					console.log(jwt, user);
 				} catch (error: any) {
 					console.log(error);
 				}

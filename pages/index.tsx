@@ -6,12 +6,11 @@ import { useUserContext } from "../components/context/UserContext";
 import Layout from "../components/elements/Layout";
 
 const Home: NextPage = () => {
-	const { user, logout } = useUserContext();
+	const { user } = useUserContext();
 
 	return (
 		<Layout>
 			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
-				<Button onClick={logout}>Logout</Button>
 				<Heading>
 					Create your own{" "}
 					<AnimatePresence exitBeforeEnter>

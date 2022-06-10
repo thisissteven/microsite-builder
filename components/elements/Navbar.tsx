@@ -1,15 +1,49 @@
-import { Button, Flex, Heading, HStack, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Flex,
+	Heading,
+	HStack,
+	Menu,
+	MenuButton,
+	MenuItem,
+	MenuList,
+	Text,
+	Tooltip,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { MouseEventHandler } from "react";
 import { useUserContext } from "../context/UserContext";
 import LoginButton from "./Button";
 import ToggleButton from "./ThemeToggle";
+import { FiSettings } from "react-icons/fi";
+import { AnimatePresence, motion } from "framer-motion";
+
+interface ItemProps {
+	children: string;
+	onClick?: () => void;
+}
+
+const Item: React.FC<ItemProps> = ({ children, onClick }) => {
+	const itemActive = useColorModeValue("#E8E8E8", "#525252");
+	const itemHover = useColorModeValue("#D8D8D8", "#606060");
+	return (
+		<MenuItem onClick={onClick} _focus={{ bg: itemHover }} _hover={{ bg: itemHover }} _active={{ bg: itemActive }}>
+			{children}
+		</MenuItem>
+	);
+};
 
 const Navbar = () => {
 	const { user, signIn, logout } = useUserContext();
 
 	const { pathname } = useRouter();
+
+	const listBg = useColorModeValue("#E0E0E0", "#424242");
+	const buttonColor = useColorModeValue("#323232", "#EEEEEE");
+	const MotionFlex = motion(Flex);
 
 	return (
 		<HStack justifyContent="space-between" w="full" flexDir={{ base: "column-reverse", sm: "row" }}>
@@ -46,9 +80,46 @@ const Navbar = () => {
 				w={{ base: "full", sm: "auto" }}
 			>
 				<ToggleButton />
-				<LoginButton variant="signup" onClick={signIn}>
-					Sign In
-				</LoginButton>
+				<Flex>
+					<AnimatePresence exitBeforeEnter>
+						{user ? (
+							<MotionFlex
+								key="menu"
+								animate={{ opacity: 1, transition: { duration: 0.5 } }}
+								exit={{ opacity: 0, transition: { duration: 0.5 } }}
+							>
+								<Menu>
+									<MenuButton
+										color={buttonColor}
+										_active={{ opacity: 0.6 }}
+										_hover={{ opacity: 0.8 }}
+										variant="link"
+										as={Button}
+										rightIcon={<FiSettings />}
+									>
+										{user?.username}
+									</MenuButton>
+									<MenuList bg={listBg}>
+										<Item>Dashboard</Item>
+										<Item>Profile</Item>
+										<Item onClick={logout}>Sign Out</Item>
+									</MenuList>
+								</Menu>
+							</MotionFlex>
+						) : (
+							<MotionFlex
+								key="signup"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1, transition: { duration: 0.5 } }}
+								exit={{ opacity: 0, transition: { duration: 0.5 } }}
+							>
+								<LoginButton variant="signup" onClick={signIn}>
+									Sign In
+								</LoginButton>
+							</MotionFlex>
+						)}
+					</AnimatePresence>
+				</Flex>
 			</HStack>
 		</HStack>
 	);

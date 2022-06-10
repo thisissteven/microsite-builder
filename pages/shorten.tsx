@@ -15,12 +15,24 @@ import type { NextPage } from "next";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../components/context/UserContext";
 import Layout from "../components/elements/Layout";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface FormValues {
+	longUrl: string;
+	shortUrl: string;
+}
 
 const Shorten: NextPage = () => {
 	const { user } = useUserContext();
-    
-	const handleSubmit = () => {
-		console.log("dsa");
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+	} = useForm<FormValues>();
+
+	const shortenUrl: SubmitHandler<FormValues> = async (data) => {
+		console.log(data);
 	};
 
 	return (
@@ -46,6 +58,7 @@ const Shorten: NextPage = () => {
 				<FormControl>
 					<VStack spacing={4} px={{ base: 0, sm: 4 }}>
 						<Input
+							{...register("longUrl")}
 							autoComplete="off"
 							_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 							_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
@@ -60,6 +73,7 @@ const Shorten: NextPage = () => {
 								stevenn.tech/
 							</FormLabel>
 							<Input
+								{...register("shortUrl")}
 								autoComplete="off"
 								_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
 								_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
@@ -70,7 +84,7 @@ const Shorten: NextPage = () => {
 								size="sm"
 							/>
 						</HStack>
-						<Button onClick={handleSubmit} alignSelf="flex-end" size="sm" variant="solid">
+						<Button onClick={handleSubmit(shortenUrl)} alignSelf="flex-end" size="sm" variant="solid">
 							Shorten URL
 						</Button>
 					</VStack>
