@@ -21,8 +21,8 @@ const Layout = ({ children }: Props): JSX.Element => (
 		exit="exit"
 		variants={variants}
 		transition={{ type: "linear" }}
-		alignItems="center"
 		h="full"
+		w="full"
 	>
 		{children}
 	</MotionHStack>

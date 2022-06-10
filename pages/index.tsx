@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
 	return (
 		<Layout>
-			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
+			<VStack w="full" spacing={8} alignItems={{ base: "flex-start", sm: "center" }}>
 				<Heading>
 					Create your own{" "}
 					<AnimatePresence exitBeforeEnter>

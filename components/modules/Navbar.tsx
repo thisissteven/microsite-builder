@@ -38,10 +38,11 @@ const Item: React.FC<ItemProps> = ({ children, onClick, url }) => {
 			_focus={{ bg: itemHover }}
 			_hover={{ bg: itemHover }}
 			_active={{ bg: itemActive }}
+			w="full"
 		>
 			{url !== undefined ? (
 				<Link href={url}>
-					<a>{children}</a>
+					<Box w="full">{children}</Box>
 				</Link>
 			) : (
 				children
