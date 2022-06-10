@@ -16,8 +16,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { MouseEventHandler } from "react";
 import { useUserContext } from "../context/UserContext";
-import LoginButton from "./Button";
-import ToggleButton from "./ThemeToggle";
+import LoginButton from "../elements/Button";
+import ToggleButton from "../elements/ThemeToggle";
 import { FiSettings } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -67,7 +67,7 @@ const Navbar = () => {
 							transitionDuration="300ms"
 							cursor="pointer"
 						>
-							stevenn.tech/
+							{process.env.NEXT_PUBLIC_SITE_URL}
 						</Button>
 					</Link>
 				</Tooltip>

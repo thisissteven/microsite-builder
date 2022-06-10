@@ -3,7 +3,7 @@ import { ChakraProvider, Container, VStack } from "@chakra-ui/react";
 import theme from "../theme";
 import "../theme/styles.css";
 import { UserContextProvider } from "../components/context/UserContext";
-import Navbar from "../components/elements/Navbar";
+import Navbar from "../components/modules/Navbar";
 import { AnimatePresence } from "framer-motion";
 
 function MyApp({ Component, pageProps, router }: AppProps) {

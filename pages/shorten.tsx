@@ -1,21 +1,24 @@
 import {
 	Box,
 	Button,
-	Container,
 	FormControl,
 	FormLabel,
 	Heading,
 	HStack,
 	Input,
-	Tooltip,
 	useColorModeValue,
+	useToast,
 	VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { AnimatePresence, motion } from "framer-motion";
-import { useUserContext } from "../components/context/UserContext";
 import Layout from "../components/elements/Layout";
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Dialog from "../components/elements/Dialog";
+import { isValidUrl } from "../components/functions/isValidUrl";
+import { displayToast } from "../components/functions/displayToast";
 
 interface FormValues {
 	longUrl: string;
@@ -23,16 +26,51 @@ interface FormValues {
 }
 
 const Shorten: NextPage = () => {
-	const { user } = useUserContext();
+	const [isOpen, setIsOpen] = useState(false);
+	const [shortenedLink, setShortenedLink] = useState("");
+	const inputBorder = { border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` };
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		reset,
+		formState: { isSubmitting },
 	} = useForm<FormValues>();
 
+	const [errorType, setErrorType] = useState<"longUrl" | "shortUrl">();
+
+	const toast = useToast();
+
 	const shortenUrl: SubmitHandler<FormValues> = async (data) => {
-		console.log(data);
+		if (!isValidUrl(data.longUrl)) {
+			if (!toast.isActive("invalid-url")) {
+				setErrorType("longUrl");
+				toast(displayToast("invalid-url"));
+			}
+			return;
+		}
+
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_API_URL}/links`, {
+				data,
+			})
+			.then((res) => {
+				console.log(res);
+				if (!toast.isActive("success")) {
+					setErrorType(undefined);
+					toast(displayToast("success"));
+				}
+				setShortenedLink(data.shortUrl);
+				reset({ longUrl: "", shortUrl: "" });
+				setIsOpen(true);
+			})
+			.catch((err) => {
+				const errorMessage: String = err.response.data.error.message;
+				if (errorMessage === "This attribute must be unique" && !toast.isActive("taken")) {
+					setErrorType("shortUrl");
+					toast(displayToast("taken"));
+				}
+			});
 	};
 
 	return (
@@ -60,33 +98,44 @@ const Shorten: NextPage = () => {
 						<Input
 							{...register("longUrl")}
 							autoComplete="off"
-							_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
-							_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
+							isInvalid={errorType === "longUrl"}
+							errorBorderColor="red.300"
+							_active={inputBorder}
+							_focus={inputBorder}
 							p={1}
 							placeholder="Enter your long URL"
 							variant="filled"
-							id="shortUrl"
 							size="sm"
+							id="shortUrl"
 						/>
 						<HStack spacing={2} alignItems="center" w="full">
 							<FormLabel m="0" htmlFor="shortUrl">
-								stevenn.tech/
+								{process.env.NEXT_PUBLIC_SITE_URL}
 							</FormLabel>
 							<Input
 								{...register("shortUrl")}
 								autoComplete="off"
-								_active={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
-								_focus={{ border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` }}
+								isInvalid={errorType === "shortUrl"}
+								errorBorderColor="red.300"
+								_active={inputBorder}
+								_focus={inputBorder}
 								p={1}
 								placeholder="Enter your short URL"
 								variant="filled"
-								id="shortUrl"
 								size="sm"
+								id="shortUrl"
 							/>
 						</HStack>
-						<Button onClick={handleSubmit(shortenUrl)} alignSelf="flex-end" size="sm" variant="solid">
+						<Button
+							isLoading={isSubmitting}
+							onClick={handleSubmit(shortenUrl)}
+							alignSelf="flex-end"
+							size="sm"
+							variant="solid"
+						>
 							Shorten URL
 						</Button>
+						<Dialog isOpen={isOpen} setIsOpen={setIsOpen} shortenedLink={shortenedLink} />
 					</VStack>
 				</FormControl>
 			</VStack>
