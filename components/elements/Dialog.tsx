@@ -10,6 +10,7 @@ import {
 	IconButton,
 	HStack,
 	Button,
+	Box,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MutableRefObject, useRef, useState } from "react";
@@ -36,51 +37,49 @@ const Dialog: React.FC<DialogProps> = ({ isOpen, setIsOpen, shortenedLink }) => 
 	const MotionText = motion(Text);
 
 	return (
-		<>
-			<AlertDialog
-				motionPreset="slideInBottom"
-				leastDestructiveRef={cancelRef}
-				onClose={() => {
-					setIsOpen(false);
-					setCopied(false);
-				}}
-				isOpen={isOpen}
-				isCentered
-			>
-				<AlertDialogOverlay />
+		<AlertDialog
+			motionPreset="slideInBottom"
+			leastDestructiveRef={cancelRef}
+			onClose={() => {
+				setIsOpen(false);
+				setCopied(false);
+			}}
+			isOpen={isOpen}
+			isCentered
+		>
+			<AlertDialogOverlay />
 
-				<AlertDialogContent bg={dialogBg}>
-					<AlertDialogHeader>
-						<AnimatePresence exitBeforeEnter>
-							{copied ? (
-								<MotionText key="1" initial={{ color: dialogBg }} animate={{ color: textColor }} exit={{ opacity: 0 }}>
-									Copied successfully!
-								</MotionText>
-							) : (
-								<MotionText key="2" exit={{ opacity: 0 }}>
-									Your link is ready!
-								</MotionText>
-							)}
-						</AnimatePresence>
-					</AlertDialogHeader>
-					<AlertDialogCloseButton />
-					<AlertDialogBody mb={4}>
-						<HStack spacing={2} justifyContent="space-between">
-							<Text fontSize="3xl" noOfLines={1}>
-								{process.env.NEXT_PUBLIC_SITE_URL}
-								{shortenedLink}
-							</Text>
-							<IconButton
-								sx={{ padding: "6px !important" }}
-								onClick={copyUrl}
-								aria-label="copy"
-								icon={<RiFileCopyLine />}
-							></IconButton>
-						</HStack>
-					</AlertDialogBody>
-				</AlertDialogContent>
-			</AlertDialog>
-		</>
+			<AlertDialogContent bg={dialogBg}>
+				<AlertDialogHeader>
+					<AnimatePresence exitBeforeEnter>
+						{copied ? (
+							<MotionText key="1" initial={{ color: dialogBg }} animate={{ color: textColor }} exit={{ opacity: 0 }}>
+								Copied successfully!
+							</MotionText>
+						) : (
+							<MotionText key="2" exit={{ opacity: 0 }}>
+								Your link is ready!
+							</MotionText>
+						)}
+					</AnimatePresence>
+				</AlertDialogHeader>
+				<AlertDialogCloseButton m={{ base: 2, sm: 0 }} />
+				<AlertDialogBody mb={4}>
+					<HStack spacing={2} justifyContent="space-between">
+						<Text fontSize={{ base: "xl", sm: "3xl" }} noOfLines={1}>
+							{process.env.NEXT_PUBLIC_SITE_URL}
+							{shortenedLink}
+						</Text>
+						<IconButton
+							sx={{ padding: "6px !important" }}
+							onClick={copyUrl}
+							aria-label="copy"
+							icon={<RiFileCopyLine />}
+						></IconButton>
+					</HStack>
+				</AlertDialogBody>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 };
 
