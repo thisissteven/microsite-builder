@@ -15,6 +15,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [userId, setUserId] = useState(0);
 
 	const toast = useToast();
 	const router = useRouter();
@@ -75,6 +76,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 				});
 				setUser(user);
 				setToken(jwt);
+				setUserId(user.id);
 			} catch (error: any) {
 				console.log(error);
 			} finally {
@@ -88,6 +90,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		user,
 		token,
 		loading,
+		userId,
 		setUser,
 		signIn,
 		logout,

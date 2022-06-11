@@ -115,7 +115,7 @@ const Navbar = () => {
 											as={Button}
 											rightIcon={<FiSettings />}
 										>
-											{user?.username}
+											{user?.displayName}
 										</MenuButton>
 										<MenuList bg={listBg}>
 											<Item url="/dashboard">Dashboard</Item>
