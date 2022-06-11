@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import Dialog from "../components/elements/Dialog";
 import { isValidUrl } from "../components/functions/isValidUrl";
 import { displayToast } from "../components/functions/displayToast";
+import { useUserContext } from "../components/context/UserContext";
 
 interface FormValues {
 	longUrl: string;
@@ -38,6 +39,7 @@ const Shorten: NextPage = () => {
 	} = useForm<FormValues>();
 
 	const [errorType, setErrorType] = useState<"longUrl" | "shortUrl">();
+	const { user, token } = useUserContext();
 
 	const toast = useToast();
 
@@ -51,9 +53,17 @@ const Shorten: NextPage = () => {
 		}
 
 		await axios
-			.post(`${process.env.NEXT_PUBLIC_API_URL}/links`, {
-				data,
-			})
+			.post(
+				`${process.env.NEXT_PUBLIC_API_URL}/links`,
+				{
+					data: token ? { ...data, user: user?.id } : data,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 			.then((res) => {
 				if (!toast.isActive("success")) {
 					setErrorType(undefined);
