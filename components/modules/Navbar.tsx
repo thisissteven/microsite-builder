@@ -61,7 +61,7 @@ const Navbar = () => {
 	const MotionFlex = motion(Flex);
 
 	return (
-		<HStack justifyContent="space-between" w="full" flexDir={{ base: "column-reverse", sm: "row" }}>
+		<HStack mb={8} justifyContent="space-between" w="full" flexDir={{ base: "column-reverse", sm: "row" }}>
 			<Flex w="full">
 				<Tooltip
 					shouldWrapChildren
