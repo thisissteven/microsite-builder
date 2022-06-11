@@ -6,6 +6,8 @@ import { UserContextProvider } from "../components/context/UserContext";
 import Navbar from "../components/modules/Navbar";
 import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
+import BottomNavbar from "../components/modules/BottomNavbar";
+import OuterLayout from "../components/elements/OuterLayout";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
 	return (
@@ -19,9 +21,12 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 					<Container h="100vh" maxW="container.xl">
 						<VStack p={{ base: 2, sm: 8 }} pt={8} spacing={8} h="full">
 							<Navbar />
-							<AnimatePresence exitBeforeEnter>
-								<Component {...pageProps} key={router.route} />
-							</AnimatePresence>
+							<OuterLayout>
+								<AnimatePresence exitBeforeEnter>
+									<Component {...pageProps} key={router.route} />
+								</AnimatePresence>
+								<BottomNavbar />
+							</OuterLayout>
 						</VStack>
 					</Container>
 				</UserContextProvider>

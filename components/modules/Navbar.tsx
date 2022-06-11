@@ -118,7 +118,6 @@ const Navbar = () => {
 											{user?.displayName}
 										</MenuButton>
 										<MenuList bg={listBg}>
-											<Item url="/dashboard">Dashboard</Item>
 											<Item url="/profile">Profile</Item>
 											<Item onClick={logout}>Sign Out</Item>
 										</MenuList>
