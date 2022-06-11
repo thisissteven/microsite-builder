@@ -47,7 +47,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 					isClosable: true,
 				});
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {});
 	};
 
 	const logout = () => {
@@ -75,14 +75,17 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 				.post(`${process.env.NEXT_PUBLIC_API_URL}/firebase/auth`, {
 					token,
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {});
 
 			return res?.data;
 		};
 
 		const unsubscribe = onAuthStateChanged(auth, async (res: any) => {
 			try {
-				const { accessToken } = res;
+				let { accessToken } = res;
+				if (!res) {
+					accessToken = await auth?.currentUser?.getIdToken();
+				}
 				const { jwt, user } = await authenticate(accessToken);
 				setCookie(null, "token", jwt, {
 					maxAge: 7 * 24 * 60 * 60,
@@ -92,7 +95,6 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 				setToken(jwt);
 				setUserId(user.id);
 			} catch (error: any) {
-				console.log(error);
 			} finally {
 				setLoading(false);
 			}

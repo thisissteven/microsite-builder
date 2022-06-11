@@ -11,7 +11,7 @@ const BottomNavbar = () => {
 	if (user === null) return <></>;
 
 	return (
-		<HStack position="absolute" bottom={0} right={0} py={2} px={4} rounded="lg" spacing={4}>
+		<HStack position="absolute" bottom={{ base: 8, sm: 0 }} right={0} py={2} px={4} rounded="lg">
 			<Button
 				variant="link"
 				color={buttonColor}

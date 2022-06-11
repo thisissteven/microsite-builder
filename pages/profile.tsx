@@ -53,6 +53,11 @@ const Profile: NextPage = () => {
 			.then(() => {
 				refetchName(token);
 				!toast.isActive("name-success") && toast(displayToast("nameEditedSuccess"));
+			})
+			.catch((err) => {
+				if (err.response.data.error.message === "This attribute must be unique") {
+					!toast.isActive("nameTaken") && toast(displayToast("nameTaken"));
+				}
 			});
 	};
 

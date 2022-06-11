@@ -55,7 +55,6 @@ const Shorten: NextPage = () => {
 				data,
 			})
 			.then((res) => {
-				console.log(res);
 				if (!toast.isActive("success")) {
 					setErrorType(undefined);
 					toast(displayToast("success"));

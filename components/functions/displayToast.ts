@@ -29,6 +29,12 @@ const toastTypes: any = {
 		status: "error",
 		isClosable: true,
 	},
+	nameTaken: {
+		id: "nameTaken",
+		title: "Sorry, but that name is taken :(",
+		status: "error",
+		isClosable: true,
+	},
 };
 
 export const displayToast = (toastType: string) => {
