@@ -20,6 +20,20 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const toast = useToast();
 	const router = useRouter();
 
+	const refetchName = async (token: string) => {
+		setLoading(true);
+		await axios
+			.get(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				setUser(res.data);
+				setLoading(false);
+			});
+	};
+
 	const signIn = () => {
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider)
@@ -91,6 +105,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		token,
 		loading,
 		userId,
+		refetchName,
 		setUser,
 		signIn,
 		logout,

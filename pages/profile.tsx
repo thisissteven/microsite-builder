@@ -23,7 +23,7 @@ interface FormValues {
 }
 
 const Profile: NextPage = () => {
-	const { user, userId, token } = useUserContext();
+	const { user, userId, token, refetchName } = useUserContext();
 	const {
 		register,
 		handleSubmit,
@@ -37,18 +37,12 @@ const Profile: NextPage = () => {
 
 	const onSubmit = async (data: any) => {
 		await axios
-			.put(
-				`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
-				{
-					data,
+			.put(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			.then((res) => console.log(res));
+			})
+			.then((res) => refetchName(token));
 	};
 
 	return (

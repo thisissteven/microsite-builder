@@ -9,6 +9,7 @@ export interface UserContextValue {
 	token: string;
 	loading: boolean;
 	userId: number;
+	refetchName: (token: string) => void;
 	setUser: React.Dispatch<any>;
 	signIn: () => void;
 	logout: () => void;
