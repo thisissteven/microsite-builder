@@ -5,6 +5,8 @@ import axios from "axios";
 import { ContextProviderProps, UserContextValue } from "./interface";
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { useToast } from "@chakra-ui/react";
+import { destroyCookie, setCookie } from "nookies";
+import { useRouter } from "next/router";
 
 export const UserContext = createContext({} as UserContextValue);
 export const useUserContext = () => useContext(UserContext);
@@ -15,6 +17,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const [loading, setLoading] = useState(true);
 
 	const toast = useToast();
+	const router = useRouter();
 
 	const signIn = () => {
 		const provider = new GoogleAuthProvider();
@@ -36,6 +39,9 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		signOut(auth).then(() => {
 			indexedDB.deleteDatabase("firebaseLocalStorageDb");
 			setUser(null);
+			destroyCookie(null, "token", {
+				path: "/",
+			});
 			toast({
 				title: "See you another time.",
 				description: "Signed out successfully",
@@ -44,6 +50,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 				duration: 9000,
 				isClosable: true,
 			});
+			router.replace("/");
 		});
 	};
 
@@ -62,10 +69,14 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 			try {
 				const { accessToken } = res;
 				const { jwt, user } = await authenticate(accessToken);
+				setCookie(null, "token", jwt, {
+					maxAge: 7 * 24 * 60 * 60,
+					path: "/",
+				});
 				setUser(user);
 				setToken(jwt);
 			} catch (error: any) {
-				return;
+				console.log(error);
 			} finally {
 				setLoading(false);
 			}

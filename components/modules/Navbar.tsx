@@ -8,6 +8,7 @@ import {
 	MenuButton,
 	MenuItem,
 	MenuList,
+	Spinner,
 	Text,
 	Tooltip,
 	useColorModeValue,
@@ -20,7 +21,6 @@ import LoginButton from "../elements/Button";
 import ToggleButton from "../elements/ThemeToggle";
 import { FiSettings } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
-import { Url } from "url";
 
 interface ItemProps {
 	children: string;
@@ -97,18 +97,7 @@ const Navbar = () => {
 				<ToggleButton />
 				<Flex>
 					{loading ? (
-						<MotionFlex
-							gap={1}
-							animate={{
-								x: [-35, -15],
-								y: [0, -5, 0, -5],
-								transition: { type: "spring", repeatType: "reverse", repeat: Infinity, duration: 1 },
-							}}
-						>
-							<Box w="4px" h="4px" rounded="full" bg="white"></Box>
-							<Box w="4px" h="4px" rounded="full" bg="white"></Box>
-							<Box w="4px" h="4px" rounded="full" bg="white"></Box>
-						</MotionFlex>
+						<Spinner size="sm" ml={4}></Spinner>
 					) : (
 						<AnimatePresence exitBeforeEnter>
 							{user ? (
