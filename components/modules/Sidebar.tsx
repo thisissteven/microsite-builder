@@ -22,7 +22,7 @@ import ToggleButton from "../elements/ThemeToggle";
 import { FiSettings } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Sidebar = () => {
+const DashboardSidebar = () => {
 	const { user, loading, signIn, logout } = useUserContext();
 
 	const { pathname } = useRouter();
@@ -38,4 +38,4 @@ const Sidebar = () => {
 	);
 };
 
-export default Sidebar;
+export default DashboardSidebar;

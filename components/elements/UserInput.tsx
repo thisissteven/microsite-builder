@@ -1,5 +1,5 @@
-import { Button, Input, useColorModeValue } from "@chakra-ui/react";
-import React, { MouseEventHandler } from "react";
+import { Input, useColorModeValue } from "@chakra-ui/react";
+import React from "react";
 import { UseFormRegister } from "react-hook-form";
 
 interface UserInputProps {
@@ -7,22 +7,22 @@ interface UserInputProps {
 	name: string;
 	type?: "text" | "number";
 	placeholder?: string;
-	errorType?: string;
+	isInvalid?: boolean;
+	maxLength?: number;
 }
 
-const UserInput: React.FC<UserInputProps> = ({ register, name, type = "text", placeholder, errorType }) => {
+const UserInput: React.FC<UserInputProps> = ({ register, name, type = "text", placeholder, isInvalid, maxLength }) => {
 	const inputBorder = { border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` };
+
 	return (
 		<Input
-			{...register(name, {
-				required: "This is required",
-				minLength: { value: 1, message: "Minimum length should be 1" },
-			})}
+			{...register(name)}
 			autoComplete="off"
-			isInvalid={errorType === "required"}
+			isInvalid={isInvalid}
 			errorBorderColor="red.300"
 			_active={inputBorder}
 			_focus={inputBorder}
+			maxLength={maxLength}
 			p={1}
 			placeholder={placeholder}
 			variant="filled"

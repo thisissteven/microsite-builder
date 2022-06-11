@@ -17,6 +17,18 @@ const toastTypes: any = {
 		status: "error",
 		isClosable: true,
 	},
+	nameEditedSuccess: {
+		id: "name-success",
+		title: "Changes saved successfully.",
+		status: "success",
+		isClosable: true,
+	},
+	required: {
+		id: "required",
+		title: "Please fill out all fields.",
+		status: "error",
+		isClosable: true,
+	},
 };
 
 export const displayToast = (toastType: string) => {

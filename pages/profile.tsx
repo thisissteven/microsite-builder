@@ -8,6 +8,7 @@ import {
 	Heading,
 	HStack,
 	Input,
+	useToast,
 	VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
@@ -17,6 +18,7 @@ import { useEffect, useState } from "react";
 import UserInput from "../components/elements/UserInput";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { displayToast } from "../components/functions/displayToast";
 
 interface FormValues {
 	displayName: string;
@@ -24,11 +26,13 @@ interface FormValues {
 
 const Profile: NextPage = () => {
 	const { user, userId, token, refetchName } = useUserContext();
+	const toast = useToast();
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: { isSubmitting, errors },
+		getValues,
+		formState: { isSubmitting },
 	} = useForm<FormValues>();
 
 	useEffect(() => {
@@ -36,13 +40,20 @@ const Profile: NextPage = () => {
 	}, [user]);
 
 	const onSubmit = async (data: any) => {
+		if (data.displayName === "") {
+			!toast.isActive("required") && toast(displayToast("required"));
+			return;
+		}
 		await axios
 			.put(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, data, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			.then((res) => refetchName(token));
+			.then(() => {
+				refetchName(token);
+				!toast.isActive("name-success") && toast(displayToast("nameEditedSuccess"));
+			});
 	};
 
 	return (
@@ -62,9 +73,10 @@ const Profile: NextPage = () => {
 							<FormLabel mb={{ base: 2, sm: 4 }}>Display Name</FormLabel>
 							<UserInput
 								placeholder="Edit your display name"
-								errorType={errors?.displayName?.type}
+								isInvalid={getValues().displayName === ""}
 								register={register}
 								name="displayName"
+								maxLength={18}
 							/>
 						</FormControl>
 						<Flex w="full" justifyContent="flex-end">
