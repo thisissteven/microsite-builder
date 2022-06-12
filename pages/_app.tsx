@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 									<Component {...pageProps} key={router.route} />
 								</AnimatePresence>
 							</OuterLayout>
-							{/* <BottomNavbar /> */}
+							<BottomNavbar />
 						</VStack>
 					</Container>
 				</UserContextProvider>

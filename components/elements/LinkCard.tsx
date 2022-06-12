@@ -111,10 +111,12 @@ const LinkCard: React.FC<LinkCardProps> = ({
 	};
 
 	const formatDate = (value: string) => {
+		let updatedTime = new Date(value).toLocaleTimeString();
+		updatedTime = updatedTime.slice(0, updatedTime.length - 6);
+
 		let date = new Date(value).toUTCString();
-		date = date.replace(" GMT", "");
-		date = date.slice(0, date.length - 3);
-		return date;
+		date = date.slice(0, date.length - 13);
+		return date + " " + updatedTime;
 	};
 
 	const updateLink = async (linkId: string) => {
