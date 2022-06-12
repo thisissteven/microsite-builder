@@ -17,6 +17,7 @@ import { ImCross, ImCheckmark } from "react-icons/im";
 import axios from "axios";
 import { useUserContext } from "../context/UserContext";
 import { displayToast } from "../functions/displayToast";
+import { BiTime } from "react-icons/bi";
 
 type Props = {
 	children: ReactNode;
@@ -78,8 +79,9 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 	};
 
 	const formatDate = (value: string) => {
-		let date = new Date(updatedAt).toUTCString();
+		let date = new Date(value).toUTCString();
 		date = date.replace(" GMT", "");
+		date = date.slice(0, date.length - 3);
 		return date;
 	};
 
@@ -115,35 +117,37 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 	return (
 		<VStack p={{ base: 2, sm: 4 }} w="full" rounded="md" maxW="sm" bg={bgColor} spacing={2}>
 			<HStack w="full" justifyContent="space-between">
-				<Text
-					_hover={{ textDecoration: "underline", cursor: "pointer" }}
-					fontSize={{ base: "sm", sm: "md" }}
-					noOfLines={1}
-					w="auto"
-				>
-					{isEditing === linkId ? (
-						<>
-							{process.env.NEXT_PUBLIC_SITE_URL}
-							<Input
-								ref={inputRef}
-								w="150px"
-								autoComplete="off"
-								_active={inputBorder}
-								_focus={inputBorder}
-								p={1}
-								value={updatedUrl}
-								onChange={(e: ChangeEvent<HTMLInputElement>) => setUpdatedUrl(e.target.value)}
-								placeholder="Your Short URL"
-								variant="filled"
-								size="sm"
-							/>
-						</>
-					) : (
-						<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank">
-							{`${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl}
-						</a>
+				<HStack spacing={0} w="full">
+					<Text
+						_hover={{ textDecoration: "underline", cursor: "pointer" }}
+						fontSize={{ base: "sm", sm: "md" }}
+						noOfLines={1}
+						minW="110px"
+						w="auto"
+					>
+						{process.env.NEXT_PUBLIC_SITE_URL}
+						{isEditing !== linkId && (
+							<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank">
+								{currentUrl}
+							</a>
+						)}
+					</Text>
+					{isEditing === linkId && (
+						<Input
+							ref={inputRef}
+							w="full"
+							autoComplete="off"
+							_active={inputBorder}
+							_focus={inputBorder}
+							p={1}
+							value={updatedUrl}
+							onChange={(e: ChangeEvent<HTMLInputElement>) => setUpdatedUrl(e.target.value)}
+							placeholder="Your Short URL"
+							variant="filled"
+							size="sm"
+						/>
 					)}
-				</Text>
+				</HStack>
 				<HStack spacing={0}>
 					{isEditing === linkId ? (
 						<>
@@ -183,9 +187,12 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 				</HStack>
 			</HStack>
 			<LinkText>{longUrl}</LinkText>
-			<Divider my={2} />
-			<HStack justifyContent="flex-end" w="full">
-				<Text fontSize={{ base: "xs", sm: "sm" }}>{formatDate(updatedAt)}</Text>
+			<Divider />
+			<HStack justifyContent="flex-end" w="full" alignItems="center" spacing={1}>
+				<BiTime />
+				<Text pt={0.5} fontSize={{ base: "xs", sm: "sm" }}>
+					{formatDate(updatedAt)}
+				</Text>
 			</HStack>
 		</VStack>
 	);
