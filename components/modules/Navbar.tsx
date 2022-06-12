@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	Divider,
 	Flex,
 	Heading,
 	HStack,
@@ -119,6 +120,9 @@ const Navbar = () => {
 										</MenuButton>
 										<MenuList bg={listBg}>
 											<Item url="/profile">Profile</Item>
+											<Item url="/links">Links</Item>
+											<Item url="/microsite">Microsite</Item>
+											<Divider my={1} />
 											<Item onClick={logout}>Sign Out</Item>
 										</MenuList>
 									</Menu>

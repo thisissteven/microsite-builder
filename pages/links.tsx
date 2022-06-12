@@ -1,10 +1,23 @@
-import { Flex, Heading, HStack, useBreakpointValue, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import {
+	Button,
+	Flex,
+	Heading,
+	HStack,
+	IconButton,
+	Tooltip,
+	useBreakpointValue,
+	VStack,
+	Wrap,
+	WrapItem,
+} from "@chakra-ui/react";
 import axios from "axios";
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useState } from "react";
 import { useUserContext } from "../components/context/UserContext";
 import Layout from "../components/elements/Layout";
+import Link from "next/link";
 import LinkCard from "../components/elements/LinkCard";
+import { MdOutlineAdd } from "react-icons/md";
 
 interface LinkProps {
 	longUrl: string;
@@ -23,6 +36,11 @@ const Links: React.FC<LinkDataProps> = ({ linkData }) => {
 		<Layout>
 			<VStack spacing={8} alignItems={{ base: "flex-start", sm: "center" }} h="full" w="full">
 				<Heading size={{ base: "lg", sm: "xl" }}>Links you generated</Heading>
+				<Tooltip shouldWrapChildren placement="right" opacity={0} label="Add more links" aria-label="A tooltip">
+					<Link href="/shorten">
+						<IconButton aria-label="add" sx={{ padding: "4px !important" }} icon={<MdOutlineAdd />}></IconButton>
+					</Link>
+				</Tooltip>
 				<HStack justifyContent="center" w="full" maxW="1000px" flexWrap="wrap" spacing={0} gap={4}>
 					{linkData.map((data) => {
 						return <LinkCard key={data.linkId} {...data} isEditing={isEditing} setIsEditing={setIsEditing} />;

@@ -63,8 +63,8 @@ const Profile: NextPage = () => {
 
 	return (
 		<Layout>
-			<HStack spacing={8} h="full" w="full" alignItems="flex-start">
-				<VStack spacing={8} w="full" alignItems="flex-start">
+			<HStack spacing={8} w="full" h="70vh" alignItems="flex-start">
+				<VStack spacing={8} alignItems="flex-start">
 					<Heading>Edit Profile</Heading>
 					<Box
 						as="form"

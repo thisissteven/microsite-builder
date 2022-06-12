@@ -22,7 +22,7 @@ const Layout = ({ children }: Props): JSX.Element => (
 		variants={variants}
 		transition={{ type: "linear" }}
 		position="relative"
-		h="full"
+		minH="70vh"
 		w="full"
 	>
 		{children}

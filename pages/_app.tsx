@@ -18,15 +18,15 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 			</Head>
 			<ChakraProvider theme={theme}>
 				<UserContextProvider>
-					<Container h="100vh" maxW="container.xl">
-						<VStack p={{ base: 2, sm: 8 }} pt={8} h="full">
+					<Container maxW="container.xl">
+						<VStack p={{ base: 2, sm: 8 }} pt={8}>
 							<Navbar />
 							<OuterLayout>
 								<AnimatePresence exitBeforeEnter>
 									<Component {...pageProps} key={router.route} />
 								</AnimatePresence>
 							</OuterLayout>
-							<BottomNavbar />
+							{/* <BottomNavbar /> */}
 						</VStack>
 					</Container>
 				</UserContextProvider>
