@@ -4,6 +4,7 @@ import { AiFillEye } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../components/context/UserContext";
 import Layout from "../components/elements/Layout";
+import Link from "next/link";
 
 const Home: NextPage = () => {
 	const { user } = useUserContext();
@@ -29,9 +30,11 @@ const Home: NextPage = () => {
 				</Heading>
 
 				<HStack spacing={{ base: 2, sm: 4 }}>
-					<Button leftIcon={<AiFillEye />} fontSize="sm" fontWeight="light" variant="link">
-						Preview Example
-					</Button>
+					<Link href="/microsite/example">
+						<Button leftIcon={<AiFillEye />} fontSize="sm" fontWeight="light" variant="link">
+							Preview Example
+						</Button>
+					</Link>
 					<Tooltip
 						shouldWrapChildren
 						w="full"
@@ -40,9 +43,11 @@ const Home: NextPage = () => {
 						label={user === null ? "Please sign in before building :D" : ""}
 						aria-label="A tooltip"
 					>
-						<Button variant="solid" fontSize="sm" disabled={user === null}>
-							Start Building
-						</Button>
+						<Link href="/microsite/new">
+							<Button variant="solid" fontSize="sm" disabled={user === null}>
+								Start Building
+							</Button>
+						</Link>
 					</Tooltip>
 				</HStack>
 			</VStack>
