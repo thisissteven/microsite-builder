@@ -44,6 +44,7 @@ const LinkText: React.FC<LinkTextProps> = ({ children }) => {
 			noOfLines={1}
 			maxW="full"
 			target="_blank"
+			rel="noreferrer"
 			alignSelf="flex-start"
 			href={children}
 		>
@@ -127,7 +128,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 					>
 						{process.env.NEXT_PUBLIC_SITE_URL}
 						{isEditing !== linkId && (
-							<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank">
+							<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank" rel="noreferrer">
 								{currentUrl}
 							</a>
 						)}
