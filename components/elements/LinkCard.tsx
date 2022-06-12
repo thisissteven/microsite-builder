@@ -206,15 +206,16 @@ const LinkCard: React.FC<LinkCardProps> = ({
 			<HStack w="full" justifyContent="space-between">
 				<HStack spacing={0} w="full">
 					<Text
-						_hover={{ textDecoration: "underline", cursor: "pointer" }}
+						_hover={{ textDecoration: isEditing !== linkId && "underline", cursor: isEditing !== linkId && "pointer" }}
 						fontSize={{ base: "sm", sm: "md" }}
 						noOfLines={1}
 						minW="110px"
 						w="auto"
 					>
-						{process.env.NEXT_PUBLIC_SITE_URL}
+						{isEditing === linkId && process.env.NEXT_PUBLIC_SITE_URL}
 						{isEditing !== linkId && (
 							<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank" rel="noreferrer">
+								{process.env.NEXT_PUBLIC_SITE_URL}
 								{currentUrl}
 							</a>
 						)}
