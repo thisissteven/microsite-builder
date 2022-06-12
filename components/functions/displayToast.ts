@@ -35,6 +35,18 @@ const toastTypes: any = {
 		status: "error",
 		isClosable: true,
 	},
+	linkUpdated: {
+		id: "linkUpdated",
+		title: "Link updated successfully.",
+		status: "success",
+		isClosable: true,
+	},
+	copied: {
+		id: "copied",
+		title: "Link copied successfully.",
+		status: "success",
+		isClosable: true,
+	},
 };
 
 export const displayToast = (toastType: string) => {
