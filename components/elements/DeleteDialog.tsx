@@ -37,7 +37,7 @@ const DeleteDialog: React.FC<AlertDialogProps> = ({ isOpen, setIsOpen, onClick }
 						Delete Link
 					</AlertDialogHeader>
 
-					<AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
+					<AlertDialogBody>Are you sure? You can&apos;t undo this action afterwards.</AlertDialogBody>
 
 					<AlertDialogFooter>
 						<Button onClick={() => setIsOpen(false)}>Cancel</Button>
