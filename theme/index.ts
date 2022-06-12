@@ -14,6 +14,14 @@ const theme = extendTheme({
 		}),
 	},
 	components: {
+		Divider: {
+			variants: {
+				solid: (props: StyleFunctionProps) => ({
+					bg: mode("#B8B8B8", "#606060")(props),
+					h: mode("1px", "0px")(props),
+				}),
+			},
+		},
 		Input: {
 			variants: {
 				filled: (props: StyleFunctionProps) => ({
