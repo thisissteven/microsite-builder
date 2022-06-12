@@ -209,7 +209,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 						_hover={{ textDecoration: isEditing !== linkId && "underline", cursor: isEditing !== linkId && "pointer" }}
 						fontSize={{ base: "sm", sm: "md" }}
 						noOfLines={1}
-						minW={{ base: "110px", sm: "130px" }}
+						minW={{ base: "100px", sm: "110px" }}
 						w="auto"
 					>
 						{isEditing === linkId && process.env.NEXT_PUBLIC_SITE_URL}
