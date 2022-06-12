@@ -22,18 +22,6 @@ import { CgTrash } from "react-icons/cg";
 import DeleteDialog from "./DeleteDialog";
 import { LinkProps } from "../../pages/links";
 
-type Props = {
-	children: ReactNode;
-};
-
-const variants = {
-	hidden: { opacity: 0, x: -200, y: 0 },
-	enter: { opacity: 1, x: 0, y: 0 },
-	exit: { opacity: 0, x: 0, y: -100 },
-};
-
-const MotionHStack = motion(HStack);
-
 interface LinkTextProps {
 	children: string;
 }
@@ -67,6 +55,56 @@ export interface LinkCardProps {
 	setLinkDatas: React.Dispatch<any>;
 }
 
+interface InputFieldProps {
+	inputRef: MutableRefObject<HTMLInputElement>;
+	updatedUrl: string;
+	linkId: string;
+	updateLink: (linkId: string, url: string) => Promise<void>;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, linkId, updateLink }) => {
+	const inputBorder = { border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` };
+
+	const [url, setUrl] = useState(updatedUrl);
+	const [updating, setUpdating] = useState(false);
+
+	useEffect(() => {
+		const update = async () => {
+			await updateLink(linkId, url);
+			setUpdating(false);
+		};
+
+		updating && update();
+	}, [updating]);
+
+	return (
+		<HStack justifyContent="space-between">
+			<Input
+				ref={inputRef}
+				w="full"
+				autoComplete="off"
+				_active={inputBorder}
+				_focus={inputBorder}
+				p={1}
+				value={url}
+				onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+				placeholder="Your Short URL"
+				variant="filled"
+				size="sm"
+			/>
+			<IconButton
+				size="sm"
+				icon={<ImCheckmark />}
+				onClick={() => {
+					setUpdating(true);
+				}}
+				aria-label="update"
+				isLoading={updating}
+			/>
+		</HStack>
+	);
+};
+
 const LinkCard: React.FC<LinkCardProps> = ({
 	linkId,
 	shortUrl,
@@ -82,7 +120,6 @@ const LinkCard: React.FC<LinkCardProps> = ({
 	const [updatedUrl, setUpdatedUrl] = useState(shortUrl);
 	const [currentUrl, setCurrentUrl] = useState(shortUrl);
 
-	const inputBorder = { border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` };
 	const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
 	const { token } = useUserContext();
@@ -119,13 +156,13 @@ const LinkCard: React.FC<LinkCardProps> = ({
 		return date + " " + updatedTime;
 	};
 
-	const updateLink = async (linkId: string) => {
+	const updateLink = async (linkId: string, url: string) => {
 		await axios
 			.put(
 				`${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}`,
 				{
 					data: {
-						shortUrl: updatedUrl,
+						shortUrl: url,
 					},
 				},
 				{
@@ -135,12 +172,16 @@ const LinkCard: React.FC<LinkCardProps> = ({
 				}
 			)
 			.then(() => {
-				setCurrentUrl(updatedUrl);
+				setCurrentUrl(url);
+				setUpdatedUrl(url);
 				!toast.isActive("linkUpdated") && toast(displayToast("linkUpdated"));
 			})
 			.catch(() => {
 				setUpdatedUrl(currentUrl);
 				!toast.isActive("taken") && toast(displayToast("taken"));
+			})
+			.finally(() => {
+				setIsEditing("");
 			});
 	};
 
@@ -179,42 +220,19 @@ const LinkCard: React.FC<LinkCardProps> = ({
 						)}
 					</Text>
 					{isEditing === linkId && (
-						<Input
-							ref={inputRef}
-							w="full"
-							autoComplete="off"
-							_active={inputBorder}
-							_focus={inputBorder}
-							p={1}
-							value={updatedUrl}
-							onChange={(e: ChangeEvent<HTMLInputElement>) => setUpdatedUrl(e.target.value)}
-							placeholder="Your Short URL"
-							variant="filled"
-							size="sm"
-						/>
+						<InputField linkId={linkId} updateLink={updateLink} inputRef={inputRef} updatedUrl={updatedUrl} />
 					)}
 				</HStack>
-				<HStack spacing={0}>
+				<HStack spacing={0} margin={0}>
 					{isEditing === linkId ? (
-						<>
-							<IconButton
-								size="sm"
-								icon={<ImCheckmark />}
-								onClick={() => {
-									setIsEditing("");
-									updateLink(linkId);
-								}}
-								aria-label="update"
-							></IconButton>
-							<IconButton
-								size="sm"
-								icon={<ImCross />}
-								onClick={() => {
-									setIsEditing("");
-								}}
-								aria-label="cancel"
-							></IconButton>
-						</>
+						<IconButton
+							size="sm"
+							icon={<ImCross />}
+							onClick={() => {
+								setIsEditing("");
+							}}
+							aria-label="cancel"
+						></IconButton>
 					) : (
 						<IconButton
 							size="sm"
