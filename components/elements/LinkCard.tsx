@@ -18,6 +18,9 @@ import axios from "axios";
 import { useUserContext } from "../context/UserContext";
 import { displayToast } from "../functions/displayToast";
 import { BiTime } from "react-icons/bi";
+import { CgTrash } from "react-icons/cg";
+import DeleteDialog from "./DeleteDialog";
+import { LinkProps } from "../../pages/links";
 
 type Props = {
 	children: ReactNode;
@@ -60,9 +63,20 @@ export interface LinkCardProps {
 	updatedAt: string;
 	isEditing: string;
 	setIsEditing: React.Dispatch<any>;
+	linkDatas: LinkProps[];
+	setLinkDatas: React.Dispatch<any>;
 }
 
-const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedAt, isEditing, setIsEditing }) => {
+const LinkCard: React.FC<LinkCardProps> = ({
+	linkId,
+	shortUrl,
+	longUrl,
+	updatedAt,
+	isEditing,
+	linkDatas,
+	setIsEditing,
+	setLinkDatas,
+}) => {
 	const bgColor = useColorModeValue("#E0E0E0", "#424242");
 
 	const [updatedUrl, setUpdatedUrl] = useState(shortUrl);
@@ -73,10 +87,27 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 
 	const { token } = useUserContext();
 	const toast = useToast();
+	const [isOpen, setIsOpen] = useState(false);
 
 	const copyUrl = async () => {
 		await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_SITE_URL}${currentUrl}`);
 		!toast.isActive("copied") && toast(displayToast("copied"));
+	};
+
+	const deleteUrl = async (linkId: string, token: string) => {
+		await axios
+			.delete(`${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(() => {
+				let currentLinkDatas = linkDatas.filter((data: LinkProps) => {
+					return data.linkId !== linkId;
+				});
+				setLinkDatas(currentLinkDatas);
+				!toast.isActive("deleteSuccess") && toast(displayToast("deleteSuccess"));
+			});
 	};
 
 	const formatDate = (value: string) => {
@@ -115,8 +146,20 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 		isEditing === linkId && inputRef.current.focus();
 	}, [isEditing]);
 
+	const MotionVStack = motion(VStack);
+
 	return (
-		<VStack p={{ base: 2, sm: 4 }} w="full" rounded="md" maxW="sm" bg={bgColor} spacing={2}>
+		<MotionVStack
+			key={linkId}
+			layout
+			exit={{ opacity: 0 }}
+			p={{ base: 2, sm: 4 }}
+			w="full"
+			rounded="md"
+			maxW="sm"
+			bg={bgColor}
+			spacing={2}
+		>
 			<HStack w="full" justifyContent="space-between">
 				<HStack spacing={0} w="full">
 					<Text
@@ -183,7 +226,10 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 					)}
 
 					{isEditing !== linkId && (
-						<IconButton size="sm" onClick={copyUrl} icon={<RiFileCopyLine />} aria-label="copy"></IconButton>
+						<>
+							<IconButton size="sm" onClick={copyUrl} icon={<RiFileCopyLine />} aria-label="copy"></IconButton>
+							<IconButton size="sm" onClick={() => setIsOpen(true)} icon={<CgTrash />} aria-label="delete"></IconButton>
+						</>
 					)}
 				</HStack>
 			</HStack>
@@ -195,7 +241,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ linkId, shortUrl, longUrl, updatedA
 					{formatDate(updatedAt)}
 				</Text>
 			</HStack>
-		</VStack>
+			<DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} onClick={() => deleteUrl(linkId, token)} />
+		</MotionVStack>
 	);
 };
 

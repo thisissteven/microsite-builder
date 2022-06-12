@@ -47,6 +47,12 @@ const toastTypes: any = {
 		status: "success",
 		isClosable: true,
 	},
+	deleteSuccess: {
+		id: "deleteSuccess",
+		title: "Link deleted successfully.",
+		status: "success",
+		isClosable: true,
+	},
 };
 
 export const displayToast = (toastType: string) => {
