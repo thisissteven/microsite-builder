@@ -85,6 +85,8 @@ const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, linkId, u
 				autoComplete="off"
 				_active={inputBorder}
 				_focus={inputBorder}
+				border="2px"
+				borderColor={inputBorder}
 				p={1}
 				value={url}
 				onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
@@ -209,7 +211,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 						_hover={{ textDecoration: isEditing !== linkId && "underline", cursor: isEditing !== linkId && "pointer" }}
 						fontSize={{ base: "sm", sm: "md" }}
 						noOfLines={1}
-						minW={{ base: "100px", sm: "110px" }}
+						minW={{ base: "100px", sm: "115px" }}
 						w="auto"
 					>
 						{isEditing === linkId && process.env.NEXT_PUBLIC_SITE_URL}
