@@ -35,6 +35,8 @@ const NewMicrosite: NextPage = () => {
 	}, [progress]);
 
 	const MotionText = motion(Text);
+	const progressBarColor = useColorModeValue("blackAlpha.300", "whiteAlpha.200");
+	const contentBg = useColorModeValue("blackAlpha.200", "whiteAlpha.100");
 
 	return (
 		<Layout>
@@ -58,12 +60,13 @@ const NewMicrosite: NextPage = () => {
 					}}
 					value={value}
 					size="xs"
-					colorScheme="green"
+					bg={progressBarColor}
+					colorScheme={"green"}
 					w="full"
 					rounded="md"
 				/>
-				<VStack h="60vh" w="full" spacing={4} bg="whiteAlpha.200" rounded="md" overflow="hidden" p={4}>
-					<Box h="full" w="full" bg="whiteAlpha.300" rounded="sm"></Box>
+				<VStack h="60vh" w="full" spacing={4} bg={progressBarColor} rounded="md" overflow="hidden" p={4}>
+					<Box h="full" w="full" bg={contentBg} rounded="sm"></Box>
 					{progress !== 3 ? (
 						<HStack w="full" justifyContent="flex-end">
 							{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
