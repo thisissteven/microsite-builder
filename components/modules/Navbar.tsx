@@ -68,10 +68,10 @@ const Navbar = () => {
 					shouldWrapChildren
 					placement="bottom-start"
 					opacity={0}
-					label={pathname === "/" ? "Shorten URL here :D" : "Home"}
+					label={pathname === "/shorten" ? "Landing Page" : "Shorten URL here :D"}
 					aria-label="A tooltip"
 				>
-					<Link href={pathname === "/" ? "/shorten" : "/"}>
+					<Link href={pathname === "/shorten" ? "/" : "/shorten"}>
 						<Button
 							size="lg"
 							px={0}
