@@ -67,15 +67,16 @@ const NewMicrosite: NextPage = () => {
 					rounded="md"
 				/>
 				<VStack
-					h="60vh"
+					h="68vh"
 					w="full"
 					spacing={4}
 					bg={progressBarColor}
 					rounded="md"
 					overflow="hidden"
-					p={{ base: 2, sm: 4 }}
+					py={4}
+					px={{ base: 2, sm: 4 }}
 				>
-					<Box h="full" bg={contentBg} w="full" rounded="sm">
+					<Box h="full" w="full" rounded="sm" className="scrollbar" py={4}>
 						<SelectTemplate />
 					</Box>
 					{progress !== 3 ? (

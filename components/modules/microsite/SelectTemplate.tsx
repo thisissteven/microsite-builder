@@ -12,10 +12,22 @@ const SelectTemplate = () => {
 	};
 
 	return (
-		<HStack spacing={6} rounded="lg" w="full">
-			<VStack justifyContent="center" h="full" p={{ base: 2, sm: 4 }} spacing={4}>
+		<HStack justifyContent="center" gap={2} spacing={0} rounded="lg" w="full" flexWrap="wrap">
+			<VStack alignItems="flex-start" h="full" p={{ base: 2, sm: 4 }} spacing={4}>
 				<Text fontSize="lg" fontWeight="medium" w="full">
 					Pick your theme
+				</Text>
+				<SwatchesPicker color={background} onChangeComplete={handleChangeComplete} />
+			</VStack>
+			<VStack alignItems="flex-start" h="full" p={{ base: 2, sm: 4 }} spacing={4}>
+				<Text fontSize="lg" fontWeight="medium" w="full">
+					Some description
+				</Text>
+				<SwatchesPicker color={background} onChangeComplete={handleChangeComplete} />
+			</VStack>
+			<VStack alignItems="flex-start" h="full" p={{ base: 2, sm: 4 }} spacing={4}>
+				<Text fontSize="lg" fontWeight="medium" w="full">
+					Social media links
 				</Text>
 				<SwatchesPicker color={background} onChangeComplete={handleChangeComplete} />
 			</VStack>
