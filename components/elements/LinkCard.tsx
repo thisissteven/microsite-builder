@@ -10,6 +10,7 @@ import {
 	WrapItem,
 	Input,
 	useToast,
+	Tag,
 } from "@chakra-ui/react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiFileCopyLine } from "react-icons/ri";
@@ -258,11 +259,14 @@ const LinkCard: React.FC<LinkCardProps> = ({
 			</HStack>
 			<LinkText>{longUrl}</LinkText>
 			<Divider />
-			<HStack justifyContent="flex-end" w="full" alignItems="center" spacing={1}>
-				<BiTime />
-				<Text pt={0.5} fontSize={{ base: "xs", sm: "sm" }}>
-					{formatDate(updatedAt)}
-				</Text>
+			<HStack justifyContent="space-between" w="full" pt={{ base: 0, sm: 2 }}>
+				<Tag size="sm">Shortened</Tag>
+				<HStack justifyContent="flex-end" alignItems="center" spacing={1}>
+					<BiTime />
+					<Text pt={0.5} fontSize={{ base: "xs", sm: "sm" }}>
+						{formatDate(updatedAt)}
+					</Text>
+				</HStack>
 			</HStack>
 			<DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} onClick={() => deleteUrl(linkId, token)} />
 		</MotionVStack>
