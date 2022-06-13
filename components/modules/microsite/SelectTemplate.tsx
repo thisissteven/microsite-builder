@@ -23,13 +23,13 @@ const SelectTemplate = () => {
 				<Text fontSize="lg" fontWeight="medium" w="full">
 					Some description
 				</Text>
-				<SwatchesPicker color={background} onChangeComplete={handleChangeComplete} />
+				{/* <SwatchesPicker color={background} onChangeComplete={handleChangeComplete} /> */}
 			</VStack>
 			<VStack alignItems="flex-start" h="full" p={{ base: 2, sm: 4 }} spacing={4}>
 				<Text fontSize="lg" fontWeight="medium" w="full">
 					Social media links
 				</Text>
-				<SwatchesPicker color={background} onChangeComplete={handleChangeComplete} />
+				{/* <SwatchesPicker color={background} onChangeComplete={handleChangeComplete} /> */}
 			</VStack>
 		</HStack>
 	);
