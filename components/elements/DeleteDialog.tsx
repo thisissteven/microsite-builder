@@ -30,14 +30,22 @@ const DeleteDialog: React.FC<AlertDialogProps> = ({ isOpen, setIsOpen, onClick }
 	const deleteActive = useColorModeValue("red.400", "red.300");
 
 	return (
-		<AlertDialog isCentered isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={() => setIsOpen(false)}>
+		<AlertDialog
+			motionPreset="slideInBottom"
+			isCentered
+			isOpen={isOpen}
+			leastDestructiveRef={cancelRef}
+			onClose={() => setIsOpen(false)}
+		>
 			<AlertDialogOverlay>
-				<AlertDialogContent bg={dialogBg}>
-					<AlertDialogHeader fontSize="lg" fontWeight="bold">
+				<AlertDialogContent mx={4} bg={dialogBg}>
+					<AlertDialogHeader pb={{ base: 0, sm: 4 }} fontSize="lg" fontWeight="bold">
 						Delete Link
 					</AlertDialogHeader>
 
-					<AlertDialogBody>Are you sure? You can&apos;t undo this action afterwards.</AlertDialogBody>
+					<AlertDialogBody fontSize={{ base: "sm", sm: "md" }}>
+						Are you sure? You can&apos;t undo this action afterwards.
+					</AlertDialogBody>
 
 					<AlertDialogFooter>
 						<Button onClick={() => setIsOpen(false)}>Cancel</Button>

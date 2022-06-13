@@ -102,52 +102,47 @@ const Shorten: NextPage = () => {
 						</AnimatePresence>{" "}
 						instantly!
 					</Heading>
-
-					<FormControl>
-						<VStack spacing={4} px={{ base: 0, sm: 4 }}>
-							<Input
-								{...register("longUrl")}
-								autoComplete="off"
-								isInvalid={errorType === "longUrl"}
-								errorBorderColor="red.300"
-								_active={inputBorder}
-								_focus={inputBorder}
-								p={1}
-								placeholder="Enter your long URL"
-								variant="filled"
-								size="sm"
-								id="shortUrl"
-							/>
-							<HStack spacing={2} alignItems="center" w="full">
-								<FormLabel m="0" htmlFor="shortUrl">
-									{process.env.NEXT_PUBLIC_SITE_URL}
-								</FormLabel>
+					<Box as="form" onSubmit={handleSubmit(shortenUrl)} w="full">
+						<FormControl>
+							<VStack spacing={4} px={{ base: 0, sm: 4 }}>
 								<Input
-									{...register("shortUrl")}
+									{...register("longUrl")}
 									autoComplete="off"
-									isInvalid={errorType === "shortUrl"}
+									isInvalid={errorType === "longUrl"}
 									errorBorderColor="red.300"
 									_active={inputBorder}
 									_focus={inputBorder}
 									p={1}
-									placeholder="Enter your short URL"
+									placeholder="Enter your long URL"
 									variant="filled"
 									size="sm"
 									id="shortUrl"
 								/>
-							</HStack>
-							<Button
-								isLoading={isSubmitting}
-								onClick={handleSubmit(shortenUrl)}
-								alignSelf="flex-end"
-								size="sm"
-								variant="solid"
-							>
-								Shorten URL
-							</Button>
-							<Dialog isOpen={isOpen} setIsOpen={setIsOpen} shortenedLink={shortenedLink} />
-						</VStack>
-					</FormControl>
+								<HStack spacing={2} alignItems="center" w="full">
+									<FormLabel m="0" htmlFor="shortUrl">
+										{process.env.NEXT_PUBLIC_SITE_URL}
+									</FormLabel>
+									<Input
+										{...register("shortUrl")}
+										autoComplete="off"
+										isInvalid={errorType === "shortUrl"}
+										errorBorderColor="red.300"
+										_active={inputBorder}
+										_focus={inputBorder}
+										p={1}
+										placeholder="Enter your short URL"
+										variant="filled"
+										size="sm"
+										id="shortUrl"
+									/>
+								</HStack>
+								<Button isLoading={isSubmitting} alignSelf="flex-end" size="sm" variant="solid" type="submit">
+									Shorten URL
+								</Button>
+								<Dialog isOpen={isOpen} setIsOpen={setIsOpen} shortenedLink={shortenedLink} />
+							</VStack>
+						</FormControl>
+					</Box>
 				</VStack>
 			</VStack>
 		</Layout>

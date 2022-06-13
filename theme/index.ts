@@ -42,7 +42,7 @@ const theme = extendTheme({
 				}),
 			},
 			defaultProps: {
-				size: { base: "xs", sm: "md" },
+				size: { base: "sm", sm: "md" },
 			},
 		},
 	},
