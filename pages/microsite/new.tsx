@@ -15,6 +15,7 @@ import Layout from "../../components/elements/Layout";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../components/context/UserContext";
 import { AnimatePresence, motion } from "framer-motion";
+import SelectTemplate from "../../components/modules/microsite/SelectTemplate";
 
 const progressTitle = ["1. Select Template", "2. Name Your Microsite", "3. Congratulations! Your Microsite is done!"];
 
@@ -65,8 +66,18 @@ const NewMicrosite: NextPage = () => {
 					w="full"
 					rounded="md"
 				/>
-				<VStack h="60vh" w="full" spacing={4} bg={progressBarColor} rounded="md" overflow="hidden" p={4}>
-					<Box h="full" w="full" bg={contentBg} rounded="sm"></Box>
+				<VStack
+					h="60vh"
+					w="full"
+					spacing={4}
+					bg={progressBarColor}
+					rounded="md"
+					overflow="hidden"
+					p={{ base: 2, sm: 4 }}
+				>
+					<Box h="full" bg={contentBg} w="full" rounded="sm">
+						<SelectTemplate />
+					</Box>
 					{progress !== 3 ? (
 						<HStack w="full" justifyContent="flex-end">
 							{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}

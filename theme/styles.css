@@ -1,1 +1,76 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+.scrollbar::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+	background-color: #babac0;
+	border-radius: 16px;
+	border: 5px solid transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+	background-color: #a0a0a5;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {
+	display: none;
+}
+
+.scrollbar {
+	height: 75vh;
+	min-width: 150px;
+	overflow-y: scroll;
+}
+
+/* Swatches Picker */
+
+.swatches-picker {
+	width: 230px !important;
+}
+
+@media only screen and (max-width: 325px) {
+	.swatches-picker {
+		width: 180px !important;
+	}
+}
+
+/* total width */
+.swatches-picker div::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* background of the scrollbar except button or resizer */
+.swatches-picker div::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+/* scrollbar itself */
+.swatches-picker div::-webkit-scrollbar-thumb {
+	background-color: #babac0;
+	border-radius: 16px;
+	border: 5px solid transparent;
+}
+.swatches-picker div::-webkit-scrollbar-thumb:hover {
+	background-color: #a0a0a5;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.swatches-picker div::-webkit-scrollbar-button {
+	display: none;
+}
