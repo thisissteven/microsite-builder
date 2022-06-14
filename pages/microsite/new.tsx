@@ -57,6 +57,7 @@ const NewMicrosite: NextPage = () => {
 							fontSize="lg"
 							initial={{ x: -100, opacity: 0 }}
 							animate={{ x: 0, opacity: 1, transition: { duration: 0.3 } }}
+							exit={{ opacity: 0 }}
 							key={title}
 						>
 							{title}
@@ -88,11 +89,11 @@ const NewMicrosite: NextPage = () => {
 						<Box h="full" w="full" bg={contentBg} rounded="sm" py={4}>
 							<AnimatePresence exitBeforeEnter>
 								{progress === 1 ? (
-									<MotionBox key="1" exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<MotionBox key="1" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 										<SelectTemplate />
 									</MotionBox>
 								) : (
-									<MotionBox key="2" exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<MotionBox key="2" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 										<SelectStyle />
 									</MotionBox>
 								)}

@@ -21,6 +21,7 @@ import UserInput from "../../elements/UserInput";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 import TextArea from "../../elements/TextArea";
+import { useUserContext } from "../../context/UserContext";
 
 const SelectTemplate = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
@@ -69,13 +70,13 @@ const SelectTemplate = () => {
 					<VStack spacing={4} alignItems="flex-start" w="full">
 						<Box w="full">
 							<FormLabel htmlFor="" mb={2} fontSize={{ base: "sm", sm: "md" }}>
-								Title
+								Display Name
 							</FormLabel>
 							<UserInput
-								placeholder="Microsite Title"
+								placeholder="Enter a name"
 								isInvalid={getValues().title === ""}
 								register={register}
-								name="displayName"
+								name="title"
 								maxLength={18}
 							/>
 						</Box>
@@ -83,7 +84,7 @@ const SelectTemplate = () => {
 							<FormLabel htmlFor="" mb={2} fontSize={{ base: "sm", sm: "md" }}>
 								Description
 							</FormLabel>
-							<TextArea placeholder="Description" register={register} name="description" maxLength={72} />
+							<TextArea placeholder="Write some description" register={register} name="description" maxLength={72} />
 						</Box>
 						<Box w="full">
 							<HStack>

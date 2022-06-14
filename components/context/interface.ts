@@ -13,6 +13,10 @@ export interface MicrositeContextValue {
 	isSubmitting: boolean;
 	background: string;
 	setBackground: React.Dispatch<any>;
+	size: string;
+	setSize: React.Dispatch<any>;
+	selectedStyle: string;
+	setSelectedStyle: React.Dispatch<any>;
 }
 
 export interface UserContextValue {
