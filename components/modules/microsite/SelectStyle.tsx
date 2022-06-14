@@ -9,7 +9,7 @@ const SelectStyle = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
 
 	const { background, getValues, size, setSize, selectedStyle, setSelectedStyle } = useMicrositeContext();
-	const [title, setTitle] = useState(getValues().title);
+	const [displayName, setDisplayName] = useState(getValues().displayName);
 
 	const sizes: any = {
 		sm: "2rem",
@@ -74,7 +74,7 @@ const SelectStyle = () => {
 						rounded="full"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 
@@ -92,7 +92,7 @@ const SelectStyle = () => {
 						rounded="2xl"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 
@@ -110,7 +110,7 @@ const SelectStyle = () => {
 						rounded="xl"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 
@@ -128,7 +128,7 @@ const SelectStyle = () => {
 						rounded="lg"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 
@@ -146,7 +146,7 @@ const SelectStyle = () => {
 						rounded="md"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 
@@ -164,7 +164,7 @@ const SelectStyle = () => {
 						rounded="sm"
 						bg={background}
 					>
-						<Text>Hello, {title}</Text>
+						<Text>Hello, {displayName}</Text>
 					</HStack>
 				</Button>
 			</HStack>
