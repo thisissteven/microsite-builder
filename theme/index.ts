@@ -33,6 +33,15 @@ const theme = extendTheme({
 				}),
 			},
 		},
+		Textarea: {
+			variants: {
+				filled: (props: StyleFunctionProps) => ({
+					bg: mode("#E0E0E0", "#424242")(props),
+					_hover: { bg: mode("#E8E8E8", "#525252")(props) },
+					_active: { bg: mode("#D8D8D8", "#606060")(props) },
+				}),
+			},
+		},
 		Button: {
 			variants: {
 				solid: (props: StyleFunctionProps) => ({

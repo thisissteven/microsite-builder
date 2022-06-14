@@ -7,7 +7,24 @@ import { AiOutlineGithub } from "react-icons/ai";
 const SelectStyle = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
 
-	return <HStack spacing={6} rounded="lg" w="full" justifyContent="flex-end"></HStack>;
+	return (
+		<HStack
+			justifyContent="center"
+			overflow="hidden"
+			gap={2}
+			spacing={0}
+			rounded="lg"
+			w="full"
+			flexWrap={{ base: "wrap", md: "nowrap" }}
+		>
+			<VStack alignItems="flex-start" p={{ base: 2, sm: 4 }} spacing={4}>
+				<Text fontSize="lg" fontWeight="medium" w="full">
+					Pick your theme
+				</Text>
+				{/* <SwatchesPicker color={background} onChangeComplete={handleChangeComplete} /> */}
+			</VStack>
+		</HStack>
+	);
 };
 
 export default SelectStyle;

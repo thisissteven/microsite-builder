@@ -17,6 +17,7 @@ import { useUserContext } from "../../components/context/UserContext";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectTemplate from "../../components/modules/microsite/SelectTemplate";
 import { MicrositeContextProvider } from "../../components/context/MicrositeContext";
+import SelectStyle from "../../components/modules/microsite/SelectStyle";
 
 const progressTitle = [
 	"1. Select Template",
@@ -42,6 +43,7 @@ const NewMicrosite: NextPage = () => {
 	}, [progress]);
 
 	const MotionText = motion(Text);
+	const MotionBox = motion(Box);
 	const progressBarColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
 	const contentBg = useColorModeValue("#EEEEEE", "#323232");
 
@@ -83,8 +85,18 @@ const NewMicrosite: NextPage = () => {
 						py={{ base: 2, sm: 4 }}
 						px={{ base: 2, sm: 4 }}
 					>
-						<Box h="full" w="full" bg={contentBg} rounded="sm" className="scrollbar" py={4}>
-							<SelectTemplate />
+						<Box h="full" w="full" bg={contentBg} rounded="sm" py={4}>
+							<AnimatePresence exitBeforeEnter>
+								{progress === 1 ? (
+									<MotionBox key="1" exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+										<SelectTemplate />
+									</MotionBox>
+								) : (
+									<MotionBox key="2" exit={{ opacity: 0 }} animate={{ opacity: 1 }}>
+										<SelectStyle />
+									</MotionBox>
+								)}
+							</AnimatePresence>
 						</Box>
 						{progress !== 4 ? (
 							<HStack w="full" justifyContent="flex-end">

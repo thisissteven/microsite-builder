@@ -63,11 +63,17 @@ Not supports in Firefox and IE */
 
 @media only screen and (max-width: 760px) {
 	.swatches-picker {
-		width: 180px !important;
+		width: 270px !important;
 	}
 }
 
-@media only screen and (max-width: 325px) {
+@media only screen and (max-width: 480px) {
+	.swatches-picker {
+		width: 280px !important;
+	}
+}
+
+@media only screen and (max-width: 390px) {
 	.swatches-picker {
 		width: 180px !important;
 	}
