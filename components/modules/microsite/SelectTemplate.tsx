@@ -21,22 +21,16 @@ import UserInput from "../../elements/UserInput";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 import TextArea from "../../elements/TextArea";
-import { useUserContext } from "../../context/UserContext";
 
 const SelectTemplate = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
 
-	const { register, handleSubmit, reset, getValues, isSubmitting, setBackground, background } = useMicrositeContext();
+	const { register, handleSubmit, getValues, setBackground, background } = useMicrositeContext();
 
 	const displayColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
 
 	const handleChangeComplete = (color: any, event: any) => {
 		setBackground(color.hex);
-	};
-
-	const onSubmit = async (data: any) => {
-		console.log(data);
-		console.log(background);
 	};
 
 	return (
@@ -59,12 +53,10 @@ const SelectTemplate = () => {
 			</VStack>
 			<VStack alignItems="flex-start" p={{ base: 2, sm: 4 }} spacing={4} w="full" maxW="300px">
 				<Box
-					as="form"
 					display="flex"
 					alignItems="flex-end"
 					gap={{ base: 0, sm: 2 }}
 					flexDir={{ base: "column", sm: "row" }}
-					onSubmit={handleSubmit(onSubmit)}
 					w="full"
 				>
 					<VStack spacing={4} alignItems="flex-start" w="full">
@@ -74,9 +66,9 @@ const SelectTemplate = () => {
 							</FormLabel>
 							<UserInput
 								placeholder="Enter a name"
-								isInvalid={getValues().title === ""}
+								isInvalid={getValues().displayName === ""}
 								register={register}
-								name="title"
+								name="displayName"
 								maxLength={18}
 							/>
 						</Box>

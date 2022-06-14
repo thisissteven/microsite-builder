@@ -55,9 +55,8 @@ const NewMicrosite: NextPage = () => {
 					<AnimatePresence exitBeforeEnter initial={false}>
 						<MotionText
 							fontSize="lg"
-							initial={{ x: -100, opacity: 0 }}
-							animate={{ x: 0, opacity: 1, transition: { duration: 0.3 } }}
-							exit={{ opacity: 0 }}
+							initial={{ x: -100 }}
+							animate={{ x: 0, transition: { duration: 0.3 } }}
 							key={title}
 						>
 							{title}
