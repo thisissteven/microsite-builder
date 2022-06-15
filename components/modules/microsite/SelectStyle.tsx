@@ -75,11 +75,17 @@ const SelectStyle = () => {
 				spacing={0}
 				rounded="lg"
 				w="full"
-				flexWrap="wrap"
+				flexDirection={{ base: "column", sm: "row" }}
+				flexWrap={{ base: "nowrap", sm: "wrap" }}
 			>
 				{borderTypes.map((type, index) => {
 					return (
-						<HStack key={index} opacity={selectedStyle === type ? 1 : 0.5} transitionDuration="300ms">
+						<HStack
+							w={{ base: "full", sm: "auto" }}
+							key={index}
+							opacity={selectedStyle === type ? 1 : 0.5}
+							transitionDuration="300ms"
+						>
 							<Button
 								onClick={() => setSelectedStyle(type)}
 								rounded={type}
@@ -88,7 +94,7 @@ const SelectStyle = () => {
 								_active={{ bg: background }}
 								size={size}
 								p={4}
-								w="20rem"
+								w={{ base: "full", sm: "20rem" }}
 								color={whiteOrBlack(background)}
 							>
 								Hello, {displayName}
