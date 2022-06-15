@@ -1,13 +1,26 @@
-import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButton } from "@chakra-ui/react";
+import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButton, FormLabel } from "@chakra-ui/react";
 import Link from "next/link";
-import React from "react";
-import PoweredByVercel from "powered-by-vercel";
-import { AiOutlineGithub } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { Image } from "@chakra-ui/react";
+import { useMicrositeContext } from "../../context/MicrositeContext";
 
 const Success = () => {
-	const textColor = useColorModeValue("red.400", "red.300");
+	const { register } = useMicrositeContext();
 
-	return <HStack spacing={6} rounded="lg" w="full" justifyContent="flex-end"></HStack>;
+	const bg = useColorModeValue("", "#E9E9E9");
+
+	return (
+		<VStack pb={4}>
+			<HStack justifyContent="center" w="full" mb={2}>
+				<Text fontSize="lg" fontWeight="medium">
+					Your site is finished!
+				</Text>
+			</HStack>
+			<Box bg={bg} rounded="lg" p={4}>
+				<Image src="/images/well-done.svg" w={48} h={48} />
+			</Box>
+		</VStack>
+	);
 };
 
 export default Success;

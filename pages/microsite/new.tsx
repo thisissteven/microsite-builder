@@ -18,6 +18,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import SelectTemplate from "../../components/modules/microsite/SelectTemplate";
 import { MicrositeContextProvider } from "../../components/context/MicrositeContext";
 import SelectStyle from "../../components/modules/microsite/SelectStyle";
+import ChooseName from "../../components/modules/microsite/ChooseName";
+import Success from "../../components/modules/microsite/Success";
 
 const progressTitle = [
 	"1. Select Template",
@@ -80,9 +82,17 @@ const NewMicrosite: NextPage = () => {
 								<MotionBox key="1" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 									<SelectTemplate />
 								</MotionBox>
-							) : (
+							) : progress === 2 ? (
 								<MotionBox key="2" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 									<SelectStyle />
+								</MotionBox>
+							) : progress === 3 ? (
+								<MotionBox key="3" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<ChooseName />
+								</MotionBox>
+							) : (
+								<MotionBox key="4" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<Success />
 								</MotionBox>
 							)}
 						</AnimatePresence>
@@ -93,7 +103,9 @@ const NewMicrosite: NextPage = () => {
 							<Button onClick={() => setProgress(progress + 1)}>{progress !== 3 ? "Next" : "Finish"}</Button>
 						</HStack>
 					) : (
-						<Button alignSelf="flex-end" isLoading={true}></Button>
+						<HStack w="full" justifyContent="flex-end">
+							<Button alignSelf="flex-end" isLoading={true}></Button>
+						</HStack>
 					)}
 				</VStack>
 			</VStack>
