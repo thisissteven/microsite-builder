@@ -49,66 +49,54 @@ const NewMicrosite: NextPage = () => {
 
 	return (
 		<MicrositeContextProvider>
-			<Layout>
-				<VStack minH="70vh" spacing={8} alignItems="flex-start" h="full" w="full" mb={4}>
-					<Heading size={{ base: "lg", sm: "xl" }}>Create New Microsite</Heading>
-					<AnimatePresence exitBeforeEnter initial={false}>
-						<MotionText
-							fontSize="lg"
-							initial={{ x: -100 }}
-							animate={{ x: 0, transition: { duration: 0.3 } }}
-							key={title}
-						>
-							{title}
-						</MotionText>
-					</AnimatePresence>
-					<Progress
-						sx={{
-							"& > div:first-of-type": {
-								transitionProperty: "width",
-							},
-						}}
-						value={value}
-						size="xs"
-						bg={progressBarColor}
-						colorScheme={"green"}
-						w="full"
-						rounded="md"
-					/>
-					<VStack
-						h="full"
-						w="full"
-						spacing={{ base: 2, sm: 4 }}
-						bg={progressBarColor}
-						rounded="md"
-						overflow="hidden"
-						py={{ base: 2, sm: 4 }}
-						px={{ base: 2, sm: 4 }}
-					>
-						<Box h="full" w="full" bg={contentBg} rounded="sm" py={4}>
-							<AnimatePresence exitBeforeEnter>
-								{progress === 1 ? (
-									<MotionBox key="1" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-										<SelectTemplate />
-									</MotionBox>
-								) : (
-									<MotionBox key="2" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-										<SelectStyle />
-									</MotionBox>
-								)}
-							</AnimatePresence>
-						</Box>
-						{progress !== 4 ? (
-							<HStack w="full" justifyContent="flex-end">
-								{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
-								<Button onClick={() => setProgress(progress + 1)}>{progress !== 3 ? "Next" : "Finish"}</Button>
-							</HStack>
-						) : (
-							<Button alignSelf="flex-end" isLoading={true}></Button>
-						)}
-					</VStack>
+			<VStack minH="70vh" spacing={8} alignItems="flex-start" h="full" w="full" mb={4}>
+				<Heading size={{ base: "lg", sm: "xl" }}>Create New Microsite</Heading>
+				<Progress
+					sx={{
+						"& > div:first-of-type": {
+							transitionProperty: "width",
+						},
+					}}
+					value={value}
+					size="xs"
+					bg={progressBarColor}
+					colorScheme={"green"}
+					w="full"
+					rounded="md"
+				/>
+				<VStack
+					h="full"
+					w="full"
+					spacing={{ base: 2, sm: 4 }}
+					bg={progressBarColor}
+					rounded="md"
+					overflow="hidden"
+					py={{ base: 2, sm: 4 }}
+					px={{ base: 2, sm: 4 }}
+				>
+					<Box h="full" w="full" bg={contentBg} rounded="sm" py={4}>
+						<AnimatePresence exitBeforeEnter>
+							{progress === 1 ? (
+								<MotionBox key="1" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<SelectTemplate />
+								</MotionBox>
+							) : (
+								<MotionBox key="2" exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+									<SelectStyle />
+								</MotionBox>
+							)}
+						</AnimatePresence>
+					</Box>
+					{progress !== 4 ? (
+						<HStack w="full" justifyContent="flex-end">
+							{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
+							<Button onClick={() => setProgress(progress + 1)}>{progress !== 3 ? "Next" : "Finish"}</Button>
+						</HStack>
+					) : (
+						<Button alignSelf="flex-end" isLoading={true}></Button>
+					)}
 				</VStack>
-			</Layout>
+			</VStack>
 		</MicrositeContextProvider>
 	);
 };

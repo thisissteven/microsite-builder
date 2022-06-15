@@ -11,6 +11,7 @@ export interface MicrositeContextValue {
 	reset: UseFormReset<any>;
 	getValues: UseFormGetValues<any>;
 	isSubmitting: boolean;
+	errors: any;
 	background: string;
 	setBackground: React.Dispatch<any>;
 	size: string;

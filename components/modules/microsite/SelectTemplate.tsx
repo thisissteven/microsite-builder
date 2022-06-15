@@ -18,7 +18,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { SwatchesPicker } from "react-color";
 import UserInput from "../../elements/UserInput";
-import { AiOutlineEdit } from "react-icons/ai";
+import { FiUpload } from "react-icons/fi";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 import TextArea from "../../elements/TextArea";
 
@@ -99,7 +99,7 @@ const SelectTemplate = () => {
 												type="submit"
 												position="absolute"
 												aria-label="edit profile"
-												icon={<AiOutlineEdit />}
+												icon={<FiUpload />}
 												top="50%"
 												left="50%"
 												transform="auto"

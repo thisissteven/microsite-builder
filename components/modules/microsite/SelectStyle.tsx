@@ -18,15 +18,22 @@ const SelectStyle = () => {
 	};
 
 	const gap: any = {
-		sm: 4,
-		md: 8,
-		lg: 12,
+		sm: 6,
+		md: 6,
+		lg: 6,
 	};
+
+	const borderTypes = ["full", "2xl", "xl", "lg", "md", "sm"];
 
 	const selectedBg = useColorModeValue("green.200", "green.500");
 
 	return (
 		<>
+			<HStack justifyContent="center" w="full" mb={2}>
+				<Text fontSize="lg" fontWeight="medium">
+					Pick a style
+				</Text>
+			</HStack>
 			<HStack justifyContent="center" w="full" mb={4}>
 				<Button
 					variant="solid"
@@ -59,114 +66,38 @@ const SelectStyle = () => {
 					large
 				</Button>
 			</HStack>
-			<HStack justifyContent="center" p={4} rowGap={gap[size]} spacing={0} rounded="lg" w="full" flexWrap="wrap">
-				<Button
-					onClick={() => setSelectedStyle("full")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "full" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="full"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
-
-				<Button
-					onClick={() => setSelectedStyle("2xl")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "2xl" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="2xl"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
-
-				<Button
-					onClick={() => setSelectedStyle("xl")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "xl" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="xl"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
-
-				<Button
-					onClick={() => setSelectedStyle("lg")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "lg" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="lg"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
-
-				<Button
-					onClick={() => setSelectedStyle("md")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "md" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="md"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
-
-				<Button
-					onClick={() => setSelectedStyle("sm")}
-					bg="transparent"
-					_hover={{ bg: "transparent" }}
-					_active={{ bg: "transparent" }}
-				>
-					<HStack
-						sx={{ border: selectedStyle === "sm" && "3px solid #c3c3c3" }}
-						justifyContent="center"
-						w="20rem"
-						h={sizes[size]}
-						rounded="sm"
-						bg={background}
-					>
-						<Text>Hello, {displayName}</Text>
-					</HStack>
-				</Button>
+			<HStack
+				justifyContent="center"
+				p={4}
+				columnGap={gap[size]}
+				rowGap={gap[size]}
+				spacing={0}
+				rounded="lg"
+				w="full"
+				flexWrap="wrap"
+			>
+				{borderTypes.map((type, index) => {
+					return (
+						<HStack
+							rounded={type}
+							overflow="hidden"
+							sx={{ outline: selectedStyle === type && "3px solid #c3c3c3" }}
+							key={index}
+						>
+							<Button
+								onClick={() => setSelectedStyle(type)}
+								bg={background}
+								_hover={{ bg: background }}
+								_active={{ bg: background }}
+								size={size}
+								p={4}
+								w="20rem"
+							>
+								Hello, {displayName}
+							</Button>
+						</HStack>
+					);
+				})}
 			</HStack>
 		</>
 	);

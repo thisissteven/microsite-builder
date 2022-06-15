@@ -13,7 +13,7 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		handleSubmit,
 		reset,
 		getValues,
-		formState: { isSubmitting },
+		formState: { isSubmitting, errors },
 	} = useForm<any>();
 
 	const { user } = useUserContext();
@@ -22,7 +22,7 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		reset({ displayName: user?.displayName });
 	}, [user]);
 
-	const [background, setBackground] = useState("#fff");
+	const [background, setBackground] = useState("#000");
 	const [size, setSize] = useState("md");
 	const [selectedStyle, setSelectedStyle] = useState("full");
 
@@ -32,6 +32,7 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		reset,
 		getValues,
 		isSubmitting,
+		errors,
 		background,
 		setBackground,
 		size,
