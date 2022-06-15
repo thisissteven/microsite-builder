@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import PoweredByVercel from "powered-by-vercel";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useMicrositeContext } from "../../context/MicrositeContext";
+import { invertColor, whiteOrBlack } from "../../functions/whiteOrBlack";
 
 const SelectStyle = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
@@ -78,20 +79,17 @@ const SelectStyle = () => {
 			>
 				{borderTypes.map((type, index) => {
 					return (
-						<HStack
-							rounded={type}
-							overflow="hidden"
-							sx={{ outline: selectedStyle === type && "3px solid #c3c3c3" }}
-							key={index}
-						>
+						<HStack key={index} opacity={selectedStyle === type ? 1 : 0.5} transitionDuration="300ms">
 							<Button
 								onClick={() => setSelectedStyle(type)}
+								rounded={type}
 								bg={background}
 								_hover={{ bg: background }}
 								_active={{ bg: background }}
 								size={size}
 								p={4}
 								w="20rem"
+								color={whiteOrBlack(background)}
 							>
 								Hello, {displayName}
 							</Button>
