@@ -10,7 +10,7 @@ interface Params extends ParsedUrlQuery {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 	const { shortUrl } = ctx.params as Params;
 
-	const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/links/?filters[shortUrl][$eq]=${shortUrl}`);
+	let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/links/?filters[shortUrl][$eq]=${shortUrl}`);
 
 	const url = data?.data[0];
 
@@ -21,6 +21,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			},
 		};
 	} else {
+		let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/links/?filters[shortUrl][$eq]=${shortUrl}`);
 		return {
 			redirect: {
 				destination: "/",

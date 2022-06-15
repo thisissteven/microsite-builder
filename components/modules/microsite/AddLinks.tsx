@@ -1,13 +1,11 @@
-import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButton, FormLabel } from "@chakra-ui/react";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import PoweredByVercel from "powered-by-vercel";
+import { Box, Text, HStack, FormLabel } from "@chakra-ui/react";
+import React from "react";
 import UserInput from "../../elements/UserInput";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 import { AiOutlineInstagram, AiOutlineYoutube } from "react-icons/ai";
 import { FaTiktok, FaFacebookSquare } from "react-icons/fa";
 
-const ChooseName = () => {
+const AddLinks = () => {
 	const { register } = useMicrositeContext();
 
 	const socialMedia = [
@@ -51,4 +49,4 @@ const ChooseName = () => {
 	);
 };
 
-export default ChooseName;
+export default AddLinks;
