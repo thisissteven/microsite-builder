@@ -5,9 +5,20 @@ import { Image } from "@chakra-ui/react";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 
 const Success = () => {
-	const { register } = useMicrositeContext();
+	const { register, background, selectedStyle, size, getValues } = useMicrositeContext();
 
 	const bg = useColorModeValue("", "#E9E9E9");
+
+	useEffect(() => {
+		const data = {
+			background,
+			selectedStyle,
+			size,
+			...getValues(),
+		};
+
+		console.log(data);
+	}, []);
 
 	return (
 		<VStack pb={4}>

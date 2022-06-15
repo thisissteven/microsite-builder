@@ -27,7 +27,7 @@ const ChooseName = () => {
 			<HStack flexWrap="wrap" spacing={0} gap={4} justifyContent="center">
 				{socialMedia.map((social) => {
 					return (
-						<Box px={4} w="32rem">
+						<Box key={social.name} px={4} w="32rem">
 							<HStack spacing={0} alignItems="center">
 								{social.icon}
 								<FormLabel htmlFor="" sx={{ mb: 0, pl: 2 }} fontSize={{ base: "sm", sm: "md" }}>
