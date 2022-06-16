@@ -39,7 +39,7 @@ const AddLinks = () => {
 				<Text fontSize="lg" fontWeight="medium">
 					Add some links
 				</Text>
-				<Button onClick={() => addSocial("linkedIn", "LinkedIn", <FaTiktok />)}>Add</Button>
+				<Button onClick={() => deleteSocial("instagram")}>Add</Button>
 			</HStack>
 			<HStack flexWrap="wrap" spacing={0} gap={4} justifyContent="center">
 				{socialMedia.map((social) => {
