@@ -18,6 +18,8 @@ export interface MicrositeContextValue {
 	setSize: React.Dispatch<any>;
 	selectedStyle: string;
 	setSelectedStyle: React.Dispatch<any>;
+	imageSrc: string;
+	setImageSrc: React.Dispatch<any>;
 }
 
 export interface UserContextValue {

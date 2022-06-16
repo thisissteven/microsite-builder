@@ -25,6 +25,7 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 	const [background, setBackground] = useState("#000");
 	const [size, setSize] = useState("md");
 	const [selectedStyle, setSelectedStyle] = useState("full");
+	const [imageSrc, setImageSrc] = useState("");
 
 	const contextValue: MicrositeContextValue = {
 		register,
@@ -39,6 +40,8 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		setSize,
 		selectedStyle,
 		setSelectedStyle,
+		imageSrc,
+		setImageSrc,
 	};
 
 	return <MicrositeContext.Provider value={contextValue}>{children}</MicrositeContext.Provider>;
