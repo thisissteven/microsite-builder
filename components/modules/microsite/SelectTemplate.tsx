@@ -138,7 +138,7 @@ const SelectTemplate = () => {
 											_active={{ bg: "transparent" }}
 										/>
 										<Tooltip label="Upload Image" aria-label="upload">
-											<Input name="upload" type="file" accept=".png, .jpg, .jpeg" w="full" h="full" opacity={0} />
+											<Input name="image" type="file" accept="image/*" w="full" h="full" opacity={0} />
 										</Tooltip>
 									</Box>
 								</VStack>
