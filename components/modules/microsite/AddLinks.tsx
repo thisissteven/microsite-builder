@@ -36,12 +36,12 @@ const AddLinks = () => {
 	const MotionBox = motion(Box);
 
 	return (
-		<Box pb={4}>
+		<Box pb={4} overflow="hidden">
 			<VStack justifyContent="center" w="full" mb={2}>
 				<Text fontSize="lg" fontWeight="medium">
 					Add your socials
 				</Text>
-				<HStack>
+				<HStack className="socials" overflowX="auto" px={8}>
 					<AnimatePresence>
 						{nonAddedSocials.map((social) => {
 							return (

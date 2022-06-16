@@ -67,6 +67,12 @@ Not supports in Firefox and IE */
 	}
 }
 
+@media only screen and (max-width: 596px) {
+	.socials {
+		width: 100%;
+	}
+}
+
 @media only screen and (max-width: 480px) {
 	.swatches-picker {
 		width: 280px !important;
