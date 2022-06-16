@@ -25,15 +25,14 @@ import TextArea from "../../elements/TextArea";
 const SelectTemplate = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
 
-	const { register, imageSrc, setImageSrc, getValues, setBackground, background } = useMicrositeContext();
+	const { register, imageSrc, setImageSrc, getValues, setBackground, background, imgName, setImgName } =
+		useMicrositeContext();
 
 	const displayColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
 
 	const handleChangeComplete = (color: any, event: any) => {
 		setBackground(color.hex);
 	};
-
-	const [imgName, setImgName] = useState(null);
 
 	const handleOnChange = (changeEvent: any) => {
 		const reader = new FileReader();

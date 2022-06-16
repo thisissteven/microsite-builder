@@ -3,6 +3,8 @@ import { createContext } from "react";
 import { ContextProviderProps, MicrositeContextValue } from "./interface";
 import { useForm } from "react-hook-form";
 import { useUserContext } from "./UserContext";
+import { AiFillLinkedin, AiOutlineInstagram, AiOutlineTwitter, AiOutlineYoutube } from "react-icons/ai";
+import { FaFacebookSquare, FaTiktok } from "react-icons/fa";
 
 export const MicrositeContext = createContext({} as MicrositeContextValue);
 export const useMicrositeContext = () => useContext(MicrositeContext);
@@ -26,6 +28,23 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 	const [size, setSize] = useState("md");
 	const [selectedStyle, setSelectedStyle] = useState("full");
 	const [imageSrc, setImageSrc] = useState("");
+	const [imgName, setImgName] = useState(null);
+
+	const [nonAddedSocials, setNonAddedSocials] = useState([
+		{ name: "instagram", label: "Instagram", icon: <AiOutlineInstagram /> },
+		{ name: "tiktok", label: "Tiktok", icon: <FaTiktok /> },
+		{ name: "facebook", label: "Facebook", icon: <FaFacebookSquare /> },
+		{ name: "youtube", label: "YouTube", icon: <AiOutlineYoutube /> },
+		{ name: "twitter", label: "Twitter", icon: <AiOutlineTwitter /> },
+	]);
+
+	const [socialMedia, setSocialMedia] = useState([
+		{
+			name: "linkedIn",
+			label: "LinkedIn",
+			icon: <AiFillLinkedin />,
+		},
+	]);
 
 	const contextValue: MicrositeContextValue = {
 		register,
@@ -42,6 +61,12 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		setSelectedStyle,
 		imageSrc,
 		setImageSrc,
+		imgName,
+		setImgName,
+		socialMedia,
+		setSocialMedia,
+		nonAddedSocials,
+		setNonAddedSocials,
 	};
 
 	return <MicrositeContext.Provider value={contextValue}>{children}</MicrositeContext.Provider>;

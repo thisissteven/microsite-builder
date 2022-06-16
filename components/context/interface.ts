@@ -20,6 +20,12 @@ export interface MicrositeContextValue {
 	setSelectedStyle: React.Dispatch<any>;
 	imageSrc: string;
 	setImageSrc: React.Dispatch<any>;
+	imgName: string | null;
+	setImgName: React.Dispatch<any>;
+	socialMedia: { name: string; label: string; icon: JSX.Element }[];
+	setSocialMedia: React.Dispatch<any>;
+	nonAddedSocials: { name: string; label: string; icon: JSX.Element }[];
+	setNonAddedSocials: React.Dispatch<any>;
 }
 
 export interface UserContextValue {

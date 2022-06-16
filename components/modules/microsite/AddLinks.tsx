@@ -1,68 +1,101 @@
-import { Box, Text, HStack, FormLabel, Button } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Text, HStack, FormLabel, Button, VStack, useColorModeValue } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import UserInput from "../../elements/UserInput";
 import { useMicrositeContext } from "../../context/MicrositeContext";
-import { AiOutlineInstagram, AiOutlineYoutube } from "react-icons/ai";
-import { FaTiktok, FaFacebookSquare } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 
 const AddLinks = () => {
-	const { register } = useMicrositeContext();
+	const { register, socialMedia, setSocialMedia, nonAddedSocials, setNonAddedSocials } = useMicrositeContext();
 
-	const [socialMedia, setSocialMedia] = useState([
-		{ name: "instagram", label: "Instagram", icon: <AiOutlineInstagram /> },
-		{ name: "tiktok", label: "Tiktok", icon: <FaTiktok /> },
-		{ name: "facebook", label: "Facebook", icon: <FaFacebookSquare /> },
-		{ name: "youtube", label: "YouTube", icon: <AiOutlineYoutube /> },
-	]);
+	const bg = useColorModeValue("red.100", "red.300");
+	const color = useColorModeValue("red.300", "red.100");
 
 	const addSocial = (name: string, label: string, icon: any) => {
 		let social = { name, label, icon };
 		let currentSocial = [...socialMedia];
 		currentSocial.push(social);
 		setSocialMedia(currentSocial);
-	};
 
-	useEffect(() => {
-		console.log(socialMedia);
-	}, [socialMedia]);
-
-	const deleteSocial = (name: string) => {
-		let currentSocial = socialMedia.filter((social) => {
+		let currentNon = nonAddedSocials.filter((social) => {
 			return social.name !== name;
 		});
-		setSocialMedia(currentSocial);
+		setNonAddedSocials(currentNon);
 	};
+
+	const deleteSocial = (socialItem: any) => {
+		let currentSocial = socialMedia.filter((social) => {
+			return social.name !== socialItem?.name;
+		});
+		setSocialMedia(currentSocial);
+
+		let currentNon = [...nonAddedSocials];
+		currentNon.push(socialItem);
+		setNonAddedSocials(currentNon);
+	};
+
+	const MotionBox = motion(Box);
 
 	return (
 		<Box pb={4}>
-			<HStack justifyContent="center" w="full" mb={2}>
+			<VStack justifyContent="center" w="full" mb={2}>
 				<Text fontSize="lg" fontWeight="medium">
-					Add some links
+					Add your socials
 				</Text>
-				<Button onClick={() => deleteSocial("instagram")}>Add</Button>
-			</HStack>
+				<HStack>
+					<AnimatePresence>
+						{nonAddedSocials.map((social) => {
+							return (
+								<MotionBox key={social.name} layout exit={{ opacity: 0 }}>
+									<Button onClick={() => addSocial(social.name, social.label, social.icon)} leftIcon={social.icon}>
+										+
+									</Button>
+								</MotionBox>
+							);
+						})}
+					</AnimatePresence>
+				</HStack>
+			</VStack>
 			<HStack flexWrap="wrap" spacing={0} gap={4} justifyContent="center">
-				{socialMedia.map((social) => {
-					return (
-						<Box key={social.name} px={4} w="32rem">
-							<HStack spacing={0} alignItems="center">
-								{social.icon}
-								<FormLabel htmlFor="" sx={{ mb: 0, pl: 2 }} fontSize={{ base: "sm", sm: "md" }}>
-									{social.label}
-								</FormLabel>
-							</HStack>
-							<HStack
-								mt={2}
-								spacing={{ base: 0, sm: 4 }}
-								gap={{ base: 4, sm: 0 }}
-								flexDir={{ base: "column", sm: "row" }}
-							>
-								<UserInput placeholder="@username" register={register} name={social.name + "User"} maxLength={72} />
-								<UserInput placeholder="Link" register={register} name={social.name + "Link"} maxLength={72} />
-							</HStack>
-						</Box>
-					);
-				})}
+				<AnimatePresence>
+					{socialMedia.map((social) => {
+						return (
+							<MotionBox layout exit={{ opacity: 0 }} key={social.name} px={4} w="32rem">
+								<HStack w="full" justifyContent="space-between">
+									<HStack spacing={0} alignItems="center">
+										{social.icon}
+										<FormLabel htmlFor="" sx={{ mb: 0, pl: 2 }} fontSize={{ base: "sm", sm: "md" }}>
+											{social.label}
+										</FormLabel>
+									</HStack>
+									<Button
+										size="xs"
+										bg="transparent"
+										_hover={{
+											bg,
+											color,
+										}}
+										_active={{
+											bg,
+											color,
+										}}
+										onClick={() => deleteSocial(social)}
+									>
+										-
+									</Button>
+								</HStack>
+								<HStack
+									mt={2}
+									spacing={{ base: 0, sm: 4 }}
+									gap={{ base: 4, sm: 0 }}
+									flexDir={{ base: "column", sm: "row" }}
+								>
+									<UserInput placeholder="@username" register={register} name={social.name + "User"} maxLength={72} />
+									<UserInput placeholder="Link" register={register} name={social.name + "Link"} maxLength={72} />
+								</HStack>
+							</MotionBox>
+						);
+					})}
+				</AnimatePresence>
 			</HStack>
 		</Box>
 	);
