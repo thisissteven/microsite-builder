@@ -1,5 +1,6 @@
 import { Button, useColorModeValue, useToast } from "@chakra-ui/react";
-import React, { MouseEventHandler } from "react";
+import axios from "axios";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { useMicrositeContext } from "../context/MicrositeContext";
 import { displayToast } from "../functions/displayToast";
 
@@ -13,8 +14,21 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 	const { getValues } = useMicrositeContext();
 	const toast = useToast();
 
-	const checkUrl = () => {
-		console.log(getValues());
+	const [isLoading, setIsLoading] = useState(false);
+
+	const checkUrl = async () => {
+		const { shortUrl } = getValues();
+		setIsLoading(true);
+		const { data } = await axios(`${process.env.NEXT_PUBLIC_API_URL}/microsites?filters[shortUrl][$eq]=${shortUrl}`);
+
+		if (data?.data?.length > 0) {
+			!toast.isActive("taken") && toast(displayToast("taken"));
+			setIsLoading(false);
+			return false;
+		}
+
+		setIsLoading(false);
+		return true;
 	};
 
 	const checkLinks = () => {
@@ -31,20 +45,24 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 
 	return (
 		<Button
-			onClick={() => {
+			isLoading={isLoading}
+			onClick={async () => {
 				if (progress === 3) {
 					const res = checkLinks();
-					if (!res) return;
-					// if fail, return
-				}
-				if (progress === 4) {
-					const res = checkUrl();
-					// if (!res) return;
+					if (!res) {
+						return;
+					}
+				} else if (progress === 4) {
+					const res = await checkUrl();
+					if (!res) {
+						return;
+					}
+					// post data to strapi
 				}
 				setProgress(progress + 1);
 			}}
 		>
-			{progress !== 4 ? "Next" : "Finish"}
+			{progress === 4 ? "Finish" : "Next"}
 		</Button>
 	);
 };

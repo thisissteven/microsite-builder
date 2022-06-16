@@ -94,7 +94,6 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 				setUser(user);
 				setToken(jwt);
 				setUserId(user.id);
-				console.log(jwt);
 			} catch (error: any) {
 			} finally {
 				setLoading(false);

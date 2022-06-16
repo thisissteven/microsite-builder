@@ -55,7 +55,6 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 			delete values[link];
 		});
 		reset({ ...values });
-		console.log({ ...values });
 	}, [nonAddedSocials]);
 
 	const contextValue: MicrositeContextValue = {
