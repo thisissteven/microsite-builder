@@ -36,15 +36,27 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		{ name: "facebook", label: "Facebook", icon: <FaFacebookSquare /> },
 		{ name: "youtube", label: "YouTube", icon: <AiOutlineYoutube /> },
 		{ name: "twitter", label: "Twitter", icon: <AiOutlineTwitter /> },
-	]);
-
-	const [socialMedia, setSocialMedia] = useState([
 		{
 			name: "linkedIn",
 			label: "LinkedIn",
 			icon: <AiFillLinkedin />,
 		},
 	]);
+
+	const [socialMedia, setSocialMedia] = useState([]);
+
+	useEffect(() => {
+		let temp = [...nonAddedSocials];
+		const values = { ...getValues() };
+		temp.map((item) => {
+			const user = item.name + "User";
+			const link = item.name + "Link";
+			delete values[user];
+			delete values[link];
+		});
+		reset({ ...values });
+		console.log({ ...values });
+	}, [nonAddedSocials]);
 
 	const contextValue: MicrositeContextValue = {
 		register,
