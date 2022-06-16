@@ -7,6 +7,7 @@ import AddLinks from "./AddLinks";
 import ChooseUrl from "./ChooseUrl";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectTemplate from "./SelectTemplate";
+import MicrositeButton from "../../elements/MicrositeButton";
 
 const Microsite = () => {
 	const [value, setValue] = useState(0);
@@ -16,8 +17,6 @@ const Microsite = () => {
 	const progressBarColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
 	const contentBg = useColorModeValue("#EEEEEE", "#323232");
 
-	const { getValues } = useMicrositeContext();
-
 	const updateProgress = () => {
 		const percentage = 20;
 		setValue(progress * percentage);
@@ -26,10 +25,6 @@ const Microsite = () => {
 	useEffect(() => {
 		updateProgress();
 	}, [progress]);
-
-	const checkUrl = () => {
-		console.log(getValues());
-	};
 
 	return (
 		<>
@@ -84,17 +79,9 @@ const Microsite = () => {
 				{progress !== 5 ? (
 					<HStack w="full" justifyContent="flex-end">
 						{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
-						<Button
-							onClick={() => {
-								if (progress === 4) {
-									checkUrl();
-									// if fail, return
-								}
-								setProgress(progress + 1);
-							}}
-						>
+						<MicrositeButton setProgress={setProgress} progress={progress}>
 							{progress !== 4 ? "Next" : "Finish"}
-						</Button>
+						</MicrositeButton>
 					</HStack>
 				) : (
 					<HStack w="full" justifyContent="flex-end">
