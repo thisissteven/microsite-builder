@@ -102,6 +102,7 @@ const SelectTemplate = () => {
 										{imgName ? imgName : "No Image Uploaded."}
 									</Text>
 								</VStack>
+								<input type="file" accept="image/*" />
 								<VStack>
 									<Box
 										as="form"
