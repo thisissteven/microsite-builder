@@ -12,7 +12,7 @@ import ToggleButton from "../components/elements/ThemeToggle";
 import Link from "next/link";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
-	const internalPaths = ["/", "/shorten", "/links", "/profile", "/microsite/new", "/microsite", "/microsite/example"];
+	const internalPaths = ["/", "/shorten", "/links", "/profile", "/microsite/new", "/microsite"];
 
 	const { pathname } = router;
 

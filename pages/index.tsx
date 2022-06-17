@@ -30,25 +30,32 @@ const Home: NextPage = () => {
 				</Heading>
 
 				<HStack spacing={{ base: 2, sm: 4 }}>
-					<Link href="/microsite/example">
+					<Link href="/example">
 						<Button leftIcon={<AiFillEye />} fontSize="sm" fontWeight="light" variant="link">
 							Preview Example
 						</Button>
 					</Link>
-					<Tooltip
-						shouldWrapChildren
-						w="full"
-						h="full"
-						opacity={0}
-						label={user === null ? "Please sign in before building :D" : ""}
-						aria-label="A tooltip"
-					>
+
+					{user === null ? (
+						<Tooltip
+							shouldWrapChildren
+							w="full"
+							h="full"
+							opacity={0}
+							label={user === null ? "Please sign in before building :D" : ""}
+							aria-label="A tooltip"
+						>
+							<Button variant="solid" fontSize="sm" disabled={true}>
+								Start Building
+							</Button>
+						</Tooltip>
+					) : (
 						<Link href="/microsite/new">
-							<Button variant="solid" fontSize="sm" disabled={user === null}>
+							<Button variant="solid" fontSize="sm">
 								Start Building
 							</Button>
 						</Link>
-					</Tooltip>
+					)}
 				</HStack>
 			</VStack>
 		</Layout>
