@@ -1,19 +1,7 @@
-import {
-	Button,
-	Flex,
-	Heading,
-	HStack,
-	IconButton,
-	Tooltip,
-	useBreakpointValue,
-	VStack,
-	Wrap,
-	WrapItem,
-} from "@chakra-ui/react";
+import { Heading, HStack, IconButton, Tooltip, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import type { GetServerSidePropsContext, NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useUserContext } from "../components/context/UserContext";
+import type { GetServerSidePropsContext } from "next";
+import { useState } from "react";
 import Layout from "../components/elements/Layout";
 import Link from "next/link";
 import LinkCard from "../components/elements/LinkCard";

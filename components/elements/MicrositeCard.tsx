@@ -1,17 +1,6 @@
-import React, { ChangeEvent, MutableRefObject, ReactNode, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, MutableRefObject, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import {
-	HStack,
-	VStack,
-	Text,
-	IconButton,
-	Divider,
-	useColorModeValue,
-	WrapItem,
-	Input,
-	useToast,
-	Tag,
-} from "@chakra-ui/react";
+import { HStack, VStack, Text, IconButton, Divider, useColorModeValue, Input, useToast, Tag } from "@chakra-ui/react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiFileCopyLine } from "react-icons/ri";
 import { ImCross, ImCheckmark } from "react-icons/im";
@@ -21,7 +10,7 @@ import { displayToast } from "../functions/displayToast";
 import { BiTime } from "react-icons/bi";
 import { CgTrash } from "react-icons/cg";
 import DeleteDialog from "./DeleteDialog";
-import { LinkProps } from "../../pages/links";
+import { MicrositeProps } from "../../pages/microsite";
 
 interface LinkTextProps {
 	children: string;
@@ -29,41 +18,31 @@ interface LinkTextProps {
 
 const LinkText: React.FC<LinkTextProps> = ({ children }) => {
 	return (
-		<Text
-			as="a"
-			_hover={{ textDecoration: "underline", cursor: "pointer" }}
-			fontSize={{ base: "sm", sm: "md" }}
-			noOfLines={1}
-			maxW="full"
-			target="_blank"
-			rel="noreferrer"
-			alignSelf="flex-start"
-			href={children}
-		>
+		<Text fontSize={{ base: "sm", sm: "md" }} fontWeight="medium" noOfLines={1} maxW="full" alignSelf="flex-start">
 			{children}
 		</Text>
 	);
 };
 
-export interface LinkCardProps {
-	longUrl: string;
+export interface MicrositeCardProps {
+	displayName: string;
 	shortUrl: string;
-	linkId: string;
+	micrositeId: string;
 	updatedAt: string;
 	isEditing: string;
 	setIsEditing: React.Dispatch<any>;
-	linkDatas: LinkProps[];
-	setLinkDatas: React.Dispatch<any>;
+	micrositeDatas: MicrositeProps[];
+	setMicrositeDatas: React.Dispatch<any>;
 }
 
 interface InputFieldProps {
 	inputRef: MutableRefObject<HTMLInputElement>;
 	updatedUrl: string;
-	linkId: string;
-	updateLink: (linkId: string, url: string) => Promise<void>;
+	micrositeId: string;
+	updateLink: (micrositeId: string, url: string) => Promise<void>;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, linkId, updateLink }) => {
+const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, micrositeId, updateLink }) => {
 	const inputBorder = { border: `2px solid ${useColorModeValue("#616161", "#D9D9D9")}` };
 
 	const [url, setUrl] = useState(updatedUrl);
@@ -71,7 +50,7 @@ const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, linkId, u
 
 	useEffect(() => {
 		const update = async () => {
-			await updateLink(linkId, url);
+			await updateLink(micrositeId, url);
 			setUpdating(false);
 		};
 
@@ -108,15 +87,15 @@ const InputField: React.FC<InputFieldProps> = ({ inputRef, updatedUrl, linkId, u
 	);
 };
 
-const LinkCard: React.FC<LinkCardProps> = ({
-	linkId,
+const LinkCard: React.FC<MicrositeCardProps> = ({
+	micrositeId,
 	shortUrl,
-	longUrl,
+	displayName,
 	updatedAt,
 	isEditing,
-	linkDatas,
+	micrositeDatas,
 	setIsEditing,
-	setLinkDatas,
+	setMicrositeDatas,
 }) => {
 	const bgColor = useColorModeValue("#E0E0E0", "#424242");
 
@@ -134,18 +113,18 @@ const LinkCard: React.FC<LinkCardProps> = ({
 		!toast.isActive("copied") && toast(displayToast("copied"));
 	};
 
-	const deleteUrl = async (linkId: string, token: string) => {
+	const deleteUrl = async (micrositeId: string, token: string) => {
 		await axios
-			.delete(`${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}`, {
+			.delete(`${process.env.NEXT_PUBLIC_API_URL}/microsites/${micrositeId}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(() => {
-				let currentLinkDatas = linkDatas.filter((data: LinkProps) => {
-					return data.linkId !== linkId;
+				let currentLinkDatas = micrositeDatas.filter((data: MicrositeProps) => {
+					return data.micrositeId !== micrositeId;
 				});
-				setLinkDatas(currentLinkDatas);
+				setMicrositeDatas(currentLinkDatas);
 				!toast.isActive("deleteSuccess") && toast(displayToast("deleteSuccess"));
 			});
 	};
@@ -159,13 +138,11 @@ const LinkCard: React.FC<LinkCardProps> = ({
 		return date + " " + updatedTime;
 	};
 
-	const updateLink = async (linkId: string, url: string) => {
-		// check if microsite with the same url exists
-		const { data: micrositeData } = await axios(
-			`${process.env.NEXT_PUBLIC_API_URL}/microsites?filters[shortUrl][$eq]=${url}`
-		);
+	const updateLink = async (micrositeId: string, url: string) => {
+		// check if link with the same url exists
+		const { data: linkData } = await axios(`${process.env.NEXT_PUBLIC_API_URL}/links?filters[shortUrl][$eq]=${url}`);
 
-		if (micrositeData?.data?.length > 0) {
+		if (linkData?.data?.length > 0) {
 			!toast.isActive("error") && toast(displayToast("taken"));
 			setIsEditing("");
 			return;
@@ -173,7 +150,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 
 		await axios
 			.put(
-				`${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}`,
+				`${process.env.NEXT_PUBLIC_API_URL}/microsites/${micrositeId}`,
 				{
 					data: {
 						shortUrl: url,
@@ -193,7 +170,6 @@ const LinkCard: React.FC<LinkCardProps> = ({
 			.catch(() => {
 				setUpdatedUrl(currentUrl);
 				!toast.isActive("taken") && toast(displayToast("taken"));
-				return;
 			})
 			.finally(() => {
 				setIsEditing("");
@@ -201,14 +177,14 @@ const LinkCard: React.FC<LinkCardProps> = ({
 	};
 
 	useEffect(() => {
-		isEditing === linkId && inputRef.current.focus();
+		isEditing === micrositeId && inputRef.current.focus();
 	}, [isEditing]);
 
 	const MotionVStack = motion(VStack);
 
 	return (
 		<MotionVStack
-			key={linkId}
+			key={micrositeId}
 			layout
 			exit={{ opacity: 0 }}
 			p={{ base: 2, sm: 4 }}
@@ -221,26 +197,29 @@ const LinkCard: React.FC<LinkCardProps> = ({
 			<HStack w="full" justifyContent="space-between">
 				<HStack spacing={0} w="full">
 					<Text
-						_hover={{ textDecoration: isEditing !== linkId && "underline", cursor: isEditing !== linkId && "pointer" }}
+						_hover={{
+							textDecoration: isEditing !== micrositeId && "underline",
+							cursor: isEditing !== micrositeId && "pointer",
+						}}
 						fontSize={{ base: "sm", sm: "md" }}
 						noOfLines={1}
 						minW={{ base: "100px", sm: "115px" }}
 						w="auto"
 					>
-						{isEditing === linkId && process.env.NEXT_PUBLIC_SITE_URL}
-						{isEditing !== linkId && (
+						{isEditing === micrositeId && process.env.NEXT_PUBLIC_SITE_URL}
+						{isEditing !== micrositeId && (
 							<a href={`http://${process.env.NEXT_PUBLIC_SITE_URL}` + currentUrl} target="_blank" rel="noreferrer">
 								{process.env.NEXT_PUBLIC_SITE_URL}
 								{currentUrl}
 							</a>
 						)}
 					</Text>
-					{isEditing === linkId && (
-						<InputField linkId={linkId} updateLink={updateLink} inputRef={inputRef} updatedUrl={updatedUrl} />
+					{isEditing === micrositeId && (
+						<InputField micrositeId={micrositeId} updateLink={updateLink} inputRef={inputRef} updatedUrl={updatedUrl} />
 					)}
 				</HStack>
 				<HStack spacing={0} margin={0}>
-					{isEditing === linkId ? (
+					{isEditing === micrositeId ? (
 						<IconButton
 							size="sm"
 							icon={<ImCross />}
@@ -255,13 +234,13 @@ const LinkCard: React.FC<LinkCardProps> = ({
 							icon={<AiOutlineEdit />}
 							onClick={() => {
 								setUpdatedUrl(currentUrl);
-								setIsEditing(linkId);
+								setIsEditing(micrositeId);
 							}}
 							aria-label="edit"
 						></IconButton>
 					)}
 
-					{isEditing !== linkId && (
+					{isEditing !== micrositeId && (
 						<>
 							<IconButton size="sm" onClick={copyUrl} icon={<RiFileCopyLine />} aria-label="copy"></IconButton>
 							<IconButton size="sm" onClick={() => setIsOpen(true)} icon={<CgTrash />} aria-label="delete"></IconButton>
@@ -269,10 +248,10 @@ const LinkCard: React.FC<LinkCardProps> = ({
 					)}
 				</HStack>
 			</HStack>
-			<LinkText>{longUrl}</LinkText>
+			<LinkText>{displayName}</LinkText>
 			<Divider />
 			<HStack justifyContent="space-between" w="full" pt={{ base: 0, sm: 2 }}>
-				<Tag size="sm">Link</Tag>
+				<Tag size="sm">Microsite</Tag>
 				<HStack justifyContent="flex-end" alignItems="center" spacing={1}>
 					<BiTime />
 					<Text pt={0.5} fontSize={{ base: "xs", sm: "sm" }}>
@@ -280,7 +259,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 					</Text>
 				</HStack>
 			</HStack>
-			<DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} onClick={() => deleteUrl(linkId, token)} />
+			<DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} onClick={() => deleteUrl(micrositeId, token)} />
 		</MotionVStack>
 	);
 };
