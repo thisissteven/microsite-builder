@@ -126,12 +126,31 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 
 	const profileColor = useColorModeValue("blackAlpha.300", "whiteAlpha.300");
 
+	const iconSizes = {
+		sm: 4,
+		md: 6,
+		lg: 8,
+	};
+
+	const paddings = {
+		text: {
+			sm: 10,
+			md: 12,
+			lg: 16,
+		},
+		icon: {
+			sm: 4,
+			md: 4,
+			lg: 5,
+		},
+	};
+
 	return (
 		<>
 			<Head>
 				<title>{displayName} - Microsite</title>
 			</Head>
-			<VStack w="full" h="70vh" justifyContent="center">
+			<VStack w="full" minH="70vh" justifyContent="center">
 				<VStack pb={8} spacing={4}>
 					<Box
 						overflow="hidden"
@@ -154,17 +173,28 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 					<Heading size="md" fontWeight="medium">
 						{displayName}
 					</Heading>
-					<Text>{description}</Text>
+					<Text fontSize="sm" textAlign="center">
+						{description}
+					</Text>
 				</VStack>
-				<VStack spacing={4}>
+				<VStack spacing={4} w="full">
 					{socials.map((social, index) => {
 						if (social.name === null || social.link === null) {
 							return;
 						}
 						return (
-							<HStack as="a" href={social.link} target="_blank" rel="noreferrer" key={index} w="full">
+							<HStack
+								as="a"
+								href={social.link}
+								justifyContent="center"
+								target="_blank"
+								rel="noreferrer"
+								key={index}
+								w="full"
+							>
 								<Button
 									flex={1}
+									maxW="300px"
 									rounded={selectedStyle}
 									bg={background}
 									_hover={{ bg: background, opacity: 0.9 }}
@@ -176,10 +206,19 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 									position="relative"
 									justifyContent="flex-start"
 									alignItems="center"
-									pl={16}
+									pl={paddings.text[size]}
 									pr={8}
 								>
-									<Icon position="absolute" left={4} as={social.icon} w={6} h={6} />@{social.name}
+									<Icon
+										position="absolute"
+										left={paddings.icon[size]}
+										as={social.icon}
+										w={iconSizes[size]}
+										h={iconSizes[size]}
+									/>
+									<Text w="full" noOfLines={1}>
+										@{social.name}
+									</Text>
 								</Button>
 							</HStack>
 						);

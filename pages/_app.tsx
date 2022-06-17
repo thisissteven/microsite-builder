@@ -41,39 +41,39 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 			)}
 			{!internalPaths.includes(pathname) && (
 				<ChakraProvider theme={theme}>
-					<Container minH="100vh" maxW="container.xl" p={8}>
-						<Box position="absolute" top={4} right={4}>
+					<Container minH="70vh" maxW="container.xl" py={8} px={{ base: 4, sm: 8 }}>
+						<Box>
 							<ToggleButton />
 						</Box>
 						<VStack p={{ base: 2, sm: 8 }}>
-							<OuterLayout>
-								<AnimatePresence exitBeforeEnter>
+							<AnimatePresence exitBeforeEnter>
+								<Container maxW="400px">
 									<Component {...pageProps} key={router.route} />
-								</AnimatePresence>
-							</OuterLayout>
+								</Container>
+							</AnimatePresence>
 						</VStack>
-						<HStack position="absolute" bottom={4} right={4}>
-							<Text fontSize="xs" fontWeight="medium">
-								Made using
-							</Text>
-							<Button
-								as="a"
-								href={`https://${process.env.NEXT_PUBLIC_SITE_URL}microsite/new`}
-								target="_blank"
-								rel="noreferrer"
-								size="sm"
-								px={0}
-								sx={{ marginLeft: "4px !important" }}
-								bg="transparent"
-								_active={{ bg: "transparent", textDecoration: "underline" }}
-								_hover={{ textDecoration: "underline" }}
-								w="auto"
-								cursor="pointer"
-							>
-								{process.env.NEXT_PUBLIC_SITE_URL}
-							</Button>
-						</HStack>
 					</Container>
+					<HStack w="full" justifyContent="flex-end" pb={8} px={{ base: 4, sm: 8 }}>
+						<Text fontSize="xs" fontWeight="medium">
+							Made using
+						</Text>
+						<Button
+							as="a"
+							href={`https://${process.env.NEXT_PUBLIC_SITE_URL}microsite/new`}
+							target="_blank"
+							rel="noreferrer"
+							size="sm"
+							px={0}
+							sx={{ marginLeft: "4px !important" }}
+							bg="transparent"
+							_active={{ bg: "transparent", textDecoration: "underline" }}
+							_hover={{ textDecoration: "underline" }}
+							w="auto"
+							cursor="pointer"
+						>
+							{process.env.NEXT_PUBLIC_SITE_URL}
+						</Button>
+					</HStack>
 				</ChakraProvider>
 			)}
 		</>
