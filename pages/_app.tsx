@@ -53,19 +53,21 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 							</OuterLayout>
 						</VStack>
 						<HStack position="absolute" bottom={4} right={4}>
-							<Text fontWeight="medium">Made by</Text>
+							<Text fontSize="xs" fontWeight="medium">
+								Made using
+							</Text>
 							<Button
 								as="a"
 								href={`https://${process.env.NEXT_PUBLIC_SITE_URL}microsite/new`}
 								target="_blank"
 								rel="noreferrer"
-								size="lg"
+								size="sm"
 								px={0}
+								sx={{ marginLeft: "4px !important" }}
 								bg="transparent"
-								_active={{ bg: "transparent", opacity: 0.5 }}
-								_hover={{ opacity: 0.8 }}
+								_active={{ bg: "transparent", textDecoration: "underline" }}
+								_hover={{ textDecoration: "underline" }}
 								w="auto"
-								transitionDuration="300ms"
 								cursor="pointer"
 							>
 								{process.env.NEXT_PUBLIC_SITE_URL}
