@@ -18,7 +18,7 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { token } = useUserContext();
+	const { user, token } = useUserContext();
 
 	const checkUrl = async () => {
 		const unallowedUrl = ["", "shorten", "profile", "links", "microsite", "microsite/new", "microsite/example"];
@@ -94,9 +94,10 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 
 						imageUrl = data?.secure_url;
 					}
+
 					// post data to strapi
-					const values = { ...getValues(), background, selectedStyle, size, imageUrl };
-					const { data } = await axios.post(
+					const values = { ...getValues(), background, selectedStyle, size, imageUrl, user: user?.id };
+					await axios.post(
 						`${process.env.NEXT_PUBLIC_API_URL}/microsites`,
 						{
 							data: {
