@@ -109,7 +109,7 @@ const SelectTemplate = () => {
 									<FormLabel htmlFor="" mb={{ base: 0, sm: 2 }} fontSize={{ base: "sm", sm: "md" }}>
 										Display Picture
 									</FormLabel>
-									<Text fontSize={{ base: "xs", sm: "sm" }} noOfLines={1} maxW="225px">
+									<Text fontSize={{ base: "xs", sm: "sm" }} noOfLines={1} maxW={{ base: "180px", sm: "" }}>
 										{imgName ? imgName : "No Image Uploaded."}
 									</Text>
 								</VStack>
