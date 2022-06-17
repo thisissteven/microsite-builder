@@ -30,11 +30,18 @@ const Home: NextPage = () => {
 				</Heading>
 
 				<HStack spacing={{ base: 2, sm: 4 }}>
-					<Link href="/example">
-						<Button leftIcon={<AiFillEye />} fontSize="sm" fontWeight="light" variant="link">
-							Preview Example
-						</Button>
-					</Link>
+					<Button
+						as="a"
+						href={`https://${process.env.NEXT_PUBLIC_SITE_URL}example`}
+						target="_blank"
+						rel="noreferrer"
+						leftIcon={<AiFillEye />}
+						fontSize="sm"
+						fontWeight="light"
+						variant="link"
+					>
+						Preview Example
+					</Button>
 
 					{user === null ? (
 						<Tooltip
