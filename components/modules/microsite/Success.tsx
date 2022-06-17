@@ -24,7 +24,7 @@ const Success = () => {
 		<VStack pb={4}>
 			<HStack justifyContent="center" w="full" mb={2}>
 				<Text fontSize="lg" fontWeight="medium">
-					Your site is finished!
+					Your site is ready!
 				</Text>
 			</HStack>
 			<Box bg={bg} rounded="lg" p={4}>

@@ -26,6 +26,8 @@ export interface MicrositeContextValue {
 	setSocialMedia: React.Dispatch<any>;
 	nonAddedSocials: { name: string; label: string; icon: JSX.Element }[];
 	setNonAddedSocials: React.Dispatch<any>;
+	formData: any | null;
+	setFormData: React.Dispatch<any>;
 }
 
 export interface UserContextValue {

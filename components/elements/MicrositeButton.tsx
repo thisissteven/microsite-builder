@@ -2,7 +2,9 @@ import { Button, useColorModeValue, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import { useMicrositeContext } from "../context/MicrositeContext";
+import { useUserContext } from "../context/UserContext";
 import { displayToast } from "../functions/displayToast";
+import { isValidUrl } from "../functions/isValidUrl";
 
 interface MicrositeButtonProps {
 	children: string;
@@ -11,32 +13,56 @@ interface MicrositeButtonProps {
 }
 
 const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, setProgress }) => {
-	const { getValues } = useMicrositeContext();
+	const { getValues, background, selectedStyle, size, formData } = useMicrositeContext();
 	const toast = useToast();
 
 	const [isLoading, setIsLoading] = useState(false);
 
+	const { token } = useUserContext();
+
 	const checkUrl = async () => {
+		const unallowedUrl = ["", "shorten", "profile", "links", "microsite", "microsite/new", "microsite/example"];
+
 		const { shortUrl } = getValues();
 		setIsLoading(true);
-		const { data } = await axios(`${process.env.NEXT_PUBLIC_API_URL}/microsites?filters[shortUrl][$eq]=${shortUrl}`);
+		const { data: linkData } = await axios(
+			`${process.env.NEXT_PUBLIC_API_URL}/links?filters[shortUrl][$eq]=${shortUrl}`
+		);
 
-		if (data?.data?.length > 0) {
-			!toast.isActive("taken") && toast(displayToast("taken"));
-			setIsLoading(false);
-			return false;
+		const { data: micrositeData } = await axios(
+			`${process.env.NEXT_PUBLIC_API_URL}/microsites?filters[shortUrl][$eq]=${shortUrl}`
+		);
+
+		if (linkData?.data?.length === 0 && micrositeData?.data?.length === 0 && !unallowedUrl.includes(shortUrl)) {
+			return true;
+		}
+
+		if (!toast.isActive("error")) {
+			toast(displayToast("taken"));
 		}
 
 		setIsLoading(false);
-		return true;
+		return false;
 	};
 
 	const checkLinks = () => {
 		const values = getValues();
+
 		for (const key in values) {
+			const isLink = key.slice(key.length - 4, key.length) === "Link";
+			const isUser = key.slice(key.length - 4, key.length) === "User";
+
 			if (key == "description" || key == "shortUrl" || key == "title") continue;
-			if (values[key] === "") {
+			if (values[key] === "" && isUser) {
 				!toast.isActive("required") && toast(displayToast("required"));
+				return false;
+			}
+			if (values[key] === "" && isLink) {
+				!toast.isActive("required") && toast(displayToast("required"));
+				return false;
+			}
+			if (!isValidUrl(values[key]) && isLink) {
+				!toast.isActive("invalid-url") && toast(displayToast("invalid-url"));
 				return false;
 			}
 		}
@@ -57,7 +83,34 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 					if (!res) {
 						return;
 					}
+
+					// post image to cloudinary
+					let imageUrl = "";
+					if (formData) {
+						const { data } = await axios.post(
+							`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+							formData
+						);
+
+						imageUrl = data?.secure_url;
+					}
 					// post data to strapi
+					const values = { ...getValues(), background, selectedStyle, size, imageUrl };
+					const { data } = await axios.post(
+						`${process.env.NEXT_PUBLIC_API_URL}/microsites`,
+						{
+							data: {
+								...values,
+							},
+						},
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					);
+
+					setIsLoading(false);
 				}
 				setProgress(progress + 1);
 			}}

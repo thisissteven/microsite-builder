@@ -2,7 +2,6 @@ import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButt
 import Link from "next/link";
 import React from "react";
 import { useUserContext } from "../context/UserContext";
-import PoweredByVercel from "powered-by-vercel";
 import { AiOutlineGithub } from "react-icons/ai";
 
 const BottomNavbar = () => {

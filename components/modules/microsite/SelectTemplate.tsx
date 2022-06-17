@@ -25,7 +25,7 @@ import TextArea from "../../elements/TextArea";
 const SelectTemplate = () => {
 	const textColor = useColorModeValue("red.400", "red.300");
 
-	const { register, imageSrc, setImageSrc, getValues, setBackground, background, imgName, setImgName } =
+	const { register, imageSrc, setImageSrc, getValues, setBackground, background, imgName, setImgName, setFormData } =
 		useMicrositeContext();
 
 	const displayColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
@@ -36,6 +36,18 @@ const SelectTemplate = () => {
 
 	const handleOnChange = (changeEvent: any) => {
 		const reader = new FileReader();
+
+		const form = changeEvent.currentTarget;
+		const fileInput: any = Array.from(form.elements).find((element: any) => element?.name === "image");
+
+		const formData = new FormData();
+		formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY as string);
+		formData.append("upload_preset", "uploads");
+
+		for (const file of fileInput?.files) {
+			formData.append("file", file);
+			setFormData(formData);
+		}
 
 		if (changeEvent?.target?.files[0]?.name) setImgName(changeEvent.target.files[0].name);
 

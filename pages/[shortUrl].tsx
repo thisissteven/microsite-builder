@@ -3,10 +3,10 @@ import React from "react";
 import axios from "axios";
 import { ParsedUrlQuery } from "querystring";
 import Head from "next/head";
-import { Box, Button, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Icon, Text, VStack, Image, useColorModeValue } from "@chakra-ui/react";
 import { whiteOrBlack } from "../components/functions/whiteOrBlack";
 import { FaFacebookSquare, FaTiktok } from "react-icons/fa";
-import { AiOutlineInstagram, AiOutlineYoutube } from "react-icons/ai";
+import { AiFillLinkedin, AiOutlineInstagram, AiOutlineTwitter, AiOutlineYoutube } from "react-icons/ai";
 
 interface Params extends ParsedUrlQuery {
 	shortUrl: string;
@@ -29,9 +29,18 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 		let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/microsites/?filters[shortUrl][$eq]=${shortUrl}`);
 
 		const microsite = data?.data[0]?.attributes;
+
+		if (microsite) {
+			return {
+				props: {
+					...microsite,
+				},
+			};
+		}
+
 		return {
-			props: {
-				...microsite,
+			redirect: {
+				destination: "/",
 			},
 		};
 	}
@@ -49,12 +58,17 @@ interface MicrositeDataProps {
 	tiktokUser: string | null;
 	youtubeLink: string | null;
 	youtubeUser: string | null;
+	twitterUser: string | null;
+	twitterLink: string | null;
+	linkedInUser: string | null;
+	linkedInLink: string | null;
 	size: "sm" | "md" | "lg";
 	selectedStyle: "full" | "2xl" | "xl" | "lg" | "md" | "sm";
 	createdAt: string;
 	updatedAt: string;
 	publishedAt: string;
 	shortUrl: string;
+	imageUrl: string;
 }
 
 const ShortURL: React.FC<MicrositeDataProps> = ({
@@ -69,8 +83,13 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 	tiktokUser,
 	youtubeLink,
 	youtubeUser,
+	twitterLink,
+	twitterUser,
+	linkedInLink,
+	linkedInUser,
 	size,
 	selectedStyle,
+	imageUrl,
 }) => {
 	const socials = [
 		{
@@ -93,7 +112,19 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 			link: youtubeLink,
 			icon: AiOutlineYoutube,
 		},
+		{
+			name: twitterUser,
+			link: twitterLink,
+			icon: AiOutlineTwitter,
+		},
+		{
+			name: linkedInUser,
+			link: linkedInLink,
+			icon: AiFillLinkedin,
+		},
 	];
+
+	const profileColor = useColorModeValue("blackAlpha.300", "whiteAlpha.300");
 
 	return (
 		<>
@@ -103,12 +134,23 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 			<VStack w="full" h="70vh" justifyContent="center">
 				<VStack pb={8} spacing={4}>
 					<Box
+						overflow="hidden"
 						position="relative"
-						bg="whiteAlpha.400"
+						bg={profileColor}
 						w={{ base: 12, sm: 16 }}
 						h={{ base: 12, sm: 16 }}
 						rounded="lg"
-					></Box>
+					>
+						{imageUrl !== "" && (
+							<Image
+								position="absolute"
+								src={imageUrl}
+								boxSize={{ base: 12, sm: 16 }}
+								objectFit="cover"
+								objectPosition="center"
+							/>
+						)}
+					</Box>
 					<Heading size="md" fontWeight="medium">
 						{displayName}
 					</Heading>

@@ -1,7 +1,6 @@
 import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButton } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import PoweredByVercel from "powered-by-vercel";
 import { AiOutlineGithub } from "react-icons/ai";
 import { useMicrositeContext } from "../../context/MicrositeContext";
 import { invertColor, whiteOrBlack } from "../../functions/whiteOrBlack";

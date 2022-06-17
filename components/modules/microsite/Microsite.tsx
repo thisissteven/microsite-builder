@@ -8,6 +8,7 @@ import ChooseUrl from "./ChooseUrl";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectTemplate from "./SelectTemplate";
 import MicrositeButton from "../../elements/MicrositeButton";
+import FinishedButton from "../../elements/FinishedButton";
 
 const Microsite = () => {
 	const [value, setValue] = useState(0);
@@ -85,7 +86,7 @@ const Microsite = () => {
 					</HStack>
 				) : (
 					<HStack w="full" justifyContent="flex-end">
-						<Button alignSelf="flex-end" isLoading={true}></Button>
+						<FinishedButton />
 					</HStack>
 				)}
 			</VStack>

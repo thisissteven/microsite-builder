@@ -52,6 +52,18 @@ const Shorten: NextPage = () => {
 			return;
 		}
 
+		const unallowedUrl = ["", "shorten", "profile", "links", "microsite", "microsite/new", "microsite/example"];
+
+		const { data: micrositeData } = await axios(
+			`${process.env.NEXT_PUBLIC_API_URL}/microsites?filters[shortUrl][$eq]=${data.shortUrl}`
+		);
+
+		if (unallowedUrl.includes(data.shortUrl) || micrositeData?.data?.length > 0) {
+			setErrorType("shortUrl");
+			!toast.isActive("error") && toast(displayToast("taken"));
+			return;
+		}
+
 		await axios
 			.post(
 				`${process.env.NEXT_PUBLIC_API_URL}/links`,
@@ -75,7 +87,7 @@ const Shorten: NextPage = () => {
 			})
 			.catch((err) => {
 				const errorMessage: String = err.response.data.error.message;
-				if (errorMessage === "This attribute must be unique" && !toast.isActive("taken")) {
+				if (errorMessage === "This attribute must be unique" && !toast.isActive("error")) {
 					setErrorType("shortUrl");
 					toast(displayToast("taken"));
 				}

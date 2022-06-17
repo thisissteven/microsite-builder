@@ -64,7 +64,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 								bg="transparent"
 								_active={{ bg: "transparent", opacity: 0.5 }}
 								_hover={{ opacity: 0.8 }}
-								pt={{ base: 4, sm: 0 }}
 								w="auto"
 								transitionDuration="300ms"
 								cursor="pointer"

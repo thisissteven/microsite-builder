@@ -70,6 +70,8 @@ Not supports in Firefox and IE */
 @media only screen and (max-width: 596px) {
 	.socials {
 		width: 100%;
+		overflow-x: scroll;
+		padding-bottom: 1rem;
 	}
 }
 

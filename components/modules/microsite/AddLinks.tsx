@@ -41,7 +41,7 @@ const AddLinks = () => {
 				<Text fontSize="lg" fontWeight="medium">
 					Add your socials
 				</Text>
-				<HStack className="socials" overflowX="auto" px={8}>
+				<HStack className="socials" px={8}>
 					<AnimatePresence>
 						{nonAddedSocials.map((social) => {
 							return (

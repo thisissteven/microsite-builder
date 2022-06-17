@@ -24,11 +24,12 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		reset({ displayName: user?.displayName });
 	}, [user]);
 
-	const [background, setBackground] = useState("#000");
+	const [background, setBackground] = useState("#000000");
 	const [size, setSize] = useState("md");
 	const [selectedStyle, setSelectedStyle] = useState("full");
 	const [imageSrc, setImageSrc] = useState("");
 	const [imgName, setImgName] = useState(null);
+	const [formData, setFormData] = useState(null);
 
 	const [nonAddedSocials, setNonAddedSocials] = useState([
 		{ name: "instagram", label: "Instagram", icon: <AiOutlineInstagram /> },
@@ -78,6 +79,8 @@ export const MicrositeContextProvider: React.FC<ContextProviderProps> = ({ child
 		setSocialMedia,
 		nonAddedSocials,
 		setNonAddedSocials,
+		formData,
+		setFormData,
 	};
 
 	return <MicrositeContext.Provider value={contextValue}>{children}</MicrositeContext.Provider>;
