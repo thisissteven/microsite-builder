@@ -79,7 +79,6 @@ const Microsite = () => {
 				</Box>
 				{progress !== 5 ? (
 					<HStack w="full" justifyContent="flex-end">
-						{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
 						<MicrositeButton setProgress={setProgress} progress={progress}>
 							{progress !== 4 ? "Next" : "Finish"}
 						</MicrositeButton>

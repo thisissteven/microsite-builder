@@ -70,54 +70,57 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 	};
 
 	return (
-		<Button
-			isLoading={isLoading}
-			onClick={async () => {
-				if (progress === 3) {
-					const res = checkLinks();
-					if (!res) {
-						return;
-					}
-				} else if (progress === 4) {
-					const res = await checkUrl();
-					if (!res) {
-						return;
-					}
+		<>
+			{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
+			<Button
+				isLoading={isLoading}
+				onClick={async () => {
+					if (progress === 3) {
+						const res = checkLinks();
+						if (!res) {
+							return;
+						}
+					} else if (progress === 4) {
+						const res = await checkUrl();
+						if (!res) {
+							return;
+						}
 
-					// post image to cloudinary
-					let imageUrl = "";
-					if (formData) {
-						const { data } = await axios.post(
-							`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
-							formData
+						// post image to cloudinary
+						let imageUrl = "";
+						if (formData) {
+							const { data } = await axios.post(
+								`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+								formData
+							);
+
+							imageUrl = data?.secure_url;
+						}
+
+						// post data to strapi
+						const values = { ...getValues(), background, selectedStyle, size, imageUrl, user: user?.id };
+						await axios.post(
+							`${process.env.NEXT_PUBLIC_API_URL}/microsites`,
+							{
+								data: {
+									...values,
+								},
+							},
+							{
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+							}
 						);
 
-						imageUrl = data?.secure_url;
+						setIsLoading(false);
 					}
-
-					// post data to strapi
-					const values = { ...getValues(), background, selectedStyle, size, imageUrl, user: user?.id };
-					await axios.post(
-						`${process.env.NEXT_PUBLIC_API_URL}/microsites`,
-						{
-							data: {
-								...values,
-							},
-						},
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-							},
-						}
-					);
-
-					setIsLoading(false);
-				}
-				setProgress(progress + 1);
-			}}
-		>
-			{progress === 4 ? "Finish" : "Next"}
-		</Button>
+					setProgress(progress + 1);
+				}}
+			>
+				{progress === 4 ? "Finish" : "Next"}
+			</Button>
+		</>
 	);
 };
 
