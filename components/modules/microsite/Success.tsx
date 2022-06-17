@@ -1,24 +1,16 @@
 import { Box, Button, Text, Heading, HStack, useColorModeValue, VStack, IconButton, FormLabel } from "@chakra-ui/react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image } from "@chakra-ui/react";
 import { useMicrositeContext } from "../../context/MicrositeContext";
+import Confetti from "react-confetti";
 
 const Success = () => {
 	const { register, background, selectedStyle, size, getValues } = useMicrositeContext();
 
 	const bg = useColorModeValue("", "#E9E9E9");
 
-	useEffect(() => {
-		const data = {
-			background,
-			selectedStyle,
-			size,
-			...getValues(),
-		};
-
-		console.log(data);
-	}, []);
+	const ref = useRef() as any;
 
 	return (
 		<VStack pb={4}>
@@ -27,7 +19,8 @@ const Success = () => {
 					Your site is ready!
 				</Text>
 			</HStack>
-			<Box bg={bg} rounded="lg" p={4}>
+			<Box position="relative" overflow="hidden" bg={bg} ref={ref} rounded="lg" p={4}>
+				<Confetti className="confetti" />
 				<Image src="/images/well-done.svg" w={48} h={48} />
 			</Box>
 		</VStack>

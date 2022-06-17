@@ -111,3 +111,9 @@ Not supports in Firefox and IE */
 .swatches-picker div::-webkit-scrollbar-button {
 	display: none;
 }
+
+.confetti {
+	position: absolute;
+	max-width: 20rem;
+	max-height: 20rem;
+}
