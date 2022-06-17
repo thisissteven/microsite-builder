@@ -71,7 +71,7 @@ const MicrositeButton: React.FC<MicrositeButtonProps> = ({ children, progress, s
 
 	return (
 		<>
-			{1 < progress && <Button onClick={() => setProgress(progress - 1)}>Back</Button>}
+			{1 < progress && <Button disabled={isLoading} onClick={() => setProgress(progress - 1)}>Back</Button>}
 			<Button
 				isLoading={isLoading}
 				onClick={async () => {
