@@ -61,9 +61,6 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		signOut(auth).then(() => {
 			indexedDB.deleteDatabase("firebaseLocalStorageDb");
 			setUser(null);
-			destroyCookie(null, "token", {
-				path: "/",
-			});
 			toast({
 				title: "See you another time.",
 				description: "Signed out successfully",
