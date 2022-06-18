@@ -20,6 +20,13 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const toast = useToast();
 	const router = useRouter();
 
+	useEffect(() => {
+		!user &&
+			destroyCookie(null, "token", {
+				path: "/",
+			});
+	}, [user]);
+
 	const refetchName = async (token: string) => {
 		setLoading(true);
 		await axios
