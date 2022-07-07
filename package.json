@@ -12,6 +12,7 @@
 		"@chakra-ui/react": "^2.2.1",
 		"@emotion/react": "^11",
 		"@emotion/styled": "^11",
+		"@tanem/react-nprogress": "^5.0.6",
 		"@types/react-color": "^3.0.6",
 		"axios": "^0.27.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
@@ -24,7 +25,8 @@
 		"react-confetti": "^6.1.0",
 		"react-dom": "18.1.0",
 		"react-hook-form": "^7.31.3",
-		"react-icons": "^4.4.0"
+		"react-icons": "^4.4.0",
+		"zustand": "^4.0.0-rc.1"
 	},
 	"devDependencies": {
 		"@types/node": "17.0.41",

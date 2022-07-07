@@ -9,12 +9,35 @@ import Head from "next/head";
 import BottomNavbar from "../components/modules/BottomNavbar";
 import OuterLayout from "../components/elements/OuterLayout";
 import ToggleButton from "../components/elements/ThemeToggle";
-import Link from "next/link";
+import { useEffect } from "react";
+import { useAnimatingStore } from "../store/useAnimatingStore";
+import Progress from "../components/elements/Progress";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
 	const internalPaths = ["/", "/shorten", "/links", "/profile", "/microsite/new", "/microsite"];
 
 	const { pathname } = router;
+	const { isAnimating, setIsAnimating } = useAnimatingStore();
+
+	useEffect(() => {
+		const handleStart = () => {
+			setIsAnimating(true);
+		};
+
+		const handleStop = () => {
+			setIsAnimating(false);
+		};
+
+		router.events.on("routeChangeStart", handleStart);
+		router.events.on("routeChangeComplete", handleStop);
+		router.events.on("routeChangeError", handleStop);
+
+		return () => {
+			router.events.off("routeChangeStart", handleStart);
+			router.events.off("routeChangeComplete", handleStop);
+			router.events.off("routeChangeError", handleStop);
+		};
+	}, [router]);
 
 	return (
 		<>
@@ -22,6 +45,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 				<title>stevenn.tech/</title>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
+
 			{internalPaths.includes(pathname) && (
 				<ChakraProvider theme={theme}>
 					<UserContextProvider>
@@ -30,6 +54,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 								<Navbar />
 								<OuterLayout>
 									<AnimatePresence exitBeforeEnter>
+										<Progress isAnimating={isAnimating} />
 										<Component {...pageProps} key={router.route} />
 									</AnimatePresence>
 								</OuterLayout>
@@ -48,6 +73,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 						<VStack p={{ base: 2, sm: 8 }}>
 							<AnimatePresence exitBeforeEnter>
 								<Container maxW="400px">
+									<Progress isAnimating={isAnimating} />
 									<Component {...pageProps} key={router.route} />
 								</Container>
 							</AnimatePresence>
