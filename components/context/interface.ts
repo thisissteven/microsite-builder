@@ -39,4 +39,5 @@ export interface UserContextValue {
 	setUser: React.Dispatch<any>;
 	signIn: () => void;
 	logout: () => void;
+	loginAsTester: () => void;
 }

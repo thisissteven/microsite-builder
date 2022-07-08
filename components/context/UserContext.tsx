@@ -41,6 +41,38 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 			});
 	};
 
+	const loginAsTester = async () => {
+		try {
+			setLoading(true);
+			const res = await axios
+				.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/local`, {
+					identifier: "admins@gmail.com",
+					password: "Qwerty123!",
+				})
+				.catch((err) => {});
+
+			const { jwt, user } = res?.data;
+			setCookie(null, "token", jwt, {
+				maxAge: 7 * 24 * 60 * 60,
+				path: "/",
+			});
+			setUser(user);
+			setToken(jwt);
+			setUserId(user.id);
+		} catch (error: any) {
+		} finally {
+			toast({
+				title: "Welcome aboard.",
+				description: "You can now create your own microsites!",
+				position: "bottom-right",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+			});
+			setLoading(false);
+		}
+	};
+
 	const signIn = () => {
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider)
@@ -115,6 +147,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 		setUser,
 		signIn,
 		logout,
+		loginAsTester,
 	};
 
 	return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;

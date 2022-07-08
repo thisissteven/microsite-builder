@@ -5,6 +5,7 @@ import {
 	Flex,
 	Heading,
 	HStack,
+	IconButton,
 	Menu,
 	MenuButton,
 	MenuItem,
@@ -22,6 +23,8 @@ import LoginButton from "../elements/Button";
 import ToggleButton from "../elements/ThemeToggle";
 import { FiSettings } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import { FcGoogle } from "react-icons/fc";
+import { GiPlagueDoctorProfile } from "react-icons/gi";
 
 interface ItemProps {
 	children: string;
@@ -53,11 +56,12 @@ const Item: React.FC<ItemProps> = ({ children, onClick, url }) => {
 };
 
 const Navbar = () => {
-	const { user, loading, signIn, logout } = useUserContext();
+	const { user, loading, signIn, loginAsTester, logout } = useUserContext();
 
 	const { pathname } = useRouter();
 
 	const listBg = useColorModeValue("#E0E0E0", "#424242");
+	const anonymousColor = useColorModeValue("black", "white");
 	const buttonColor = useColorModeValue("#323232", "#EEEEEE");
 	const MotionFlex = motion(Flex);
 
@@ -133,9 +137,41 @@ const Navbar = () => {
 									animate={{ opacity: 1, transition: { duration: 0.5 } }}
 									exit={{ opacity: 0, transition: { duration: 0.5 } }}
 								>
-									<LoginButton variant="signup" onClick={signIn}>
-										Sign In
-									</LoginButton>
+									<Tooltip
+										shouldWrapChildren
+										placement="bottom-start"
+										bg={"blue.100"}
+										color={"black"}
+										opacity={0}
+										label={"Sign in anonymously"}
+										aria-label="A tooltip"
+									>
+										<IconButton
+											ml={{ base: 2, sm: 4 }}
+											colorScheme="blue"
+											aria-label="Sign in anonymously"
+											icon={<GiPlagueDoctorProfile />}
+											color={anonymousColor}
+											onClick={loginAsTester}
+										/>
+									</Tooltip>
+									<Tooltip
+										shouldWrapChildren
+										placement="bottom-start"
+										bg={"red.200"}
+										color={"black"}
+										opacity={0}
+										label={"Sign in with Google"}
+										aria-label="A tooltip"
+									>
+										<IconButton
+											ml={{ base: 2, sm: 4 }}
+											colorScheme="blue"
+											aria-label="Sign in with Google"
+											icon={<FcGoogle />}
+											onClick={signIn}
+										/>
+									</Tooltip>
 								</MotionFlex>
 							)}
 						</AnimatePresence>
