@@ -7,6 +7,8 @@ import { Box, Button, Heading, HStack, Icon, Text, VStack, Image, useColorModeVa
 import { whiteOrBlack } from "../components/functions/whiteOrBlack";
 import { FaFacebookSquare, FaTiktok } from "react-icons/fa";
 import { AiFillLinkedin, AiOutlineInstagram, AiOutlineTwitter, AiOutlineYoutube } from "react-icons/ai";
+import useProgressiveImage from "../components/hooks/useProgressiveImage";
+import { buildImageUrl } from "cloudinary-build-url";
 
 interface Params extends ParsedUrlQuery {
 	shortUrl: string;
@@ -126,6 +128,24 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 
 	const profileColor = useColorModeValue("blackAlpha.300", "whiteAlpha.300");
 
+	const publicId = imageUrl;
+	const lowSrc = buildImageUrl(publicId, {
+		cloud: {
+			cloudName: "steven2801",
+		},
+		transformations: {
+			quality: 1,
+		},
+	});
+
+	const highSrc = buildImageUrl(publicId, {
+		cloud: {
+			cloudName: "steven2801",
+		},
+	});
+
+	const [src, blur] = useProgressiveImage(lowSrc, highSrc);
+
 	const iconSizes = {
 		sm: 4,
 		md: 6,
@@ -161,12 +181,18 @@ const ShortURL: React.FC<MicrositeDataProps> = ({
 						rounded="lg"
 					>
 						{imageUrl !== "" && (
+							// eslint-disable-next-line jsx-a11y/alt-text
 							<Image
 								position="absolute"
-								src={imageUrl}
+								src={src}
 								boxSize={{ base: 12, sm: 16 }}
+								alt="profile image"
 								objectFit="cover"
 								objectPosition="center"
+								style={{
+									filter: blur ? "blur(20px)" : "none",
+									transition: blur ? "none" : "filter 0.3s ease-out",
+								}}
 							/>
 						)}
 					</Box>
