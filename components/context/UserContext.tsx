@@ -5,7 +5,7 @@ import axios from "axios";
 import { ContextProviderProps, UserContextValue } from "./interface";
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { useToast } from "@chakra-ui/react";
-import { destroyCookie, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { useRouter } from "next/router";
 
 export const UserContext = createContext({} as UserContextValue);
@@ -21,10 +21,10 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	const router = useRouter();
 
 	useEffect(() => {
-		!user &&
-			destroyCookie(null, "token", {
-				path: "/",
-			});
+		const { admin } = parseCookies();
+		if (!user && admin) {
+			loginAsTester();
+		}
 	}, [user]);
 
 	const refetchName = async (token: string) => {
@@ -53,6 +53,10 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 
 			const { jwt, user } = res?.data;
 			setCookie(null, "token", jwt, {
+				maxAge: 7 * 24 * 60 * 60,
+				path: "/",
+			});
+			setCookie(null, "admin", jwt, {
 				maxAge: 7 * 24 * 60 * 60,
 				path: "/",
 			});
@@ -90,6 +94,12 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 	};
 
 	const logout = () => {
+		destroyCookie(null, "token", {
+			path: "/",
+		});
+		destroyCookie(null, "admin", {
+			path: "/",
+		});
 		signOut(auth).then(() => {
 			indexedDB.deleteDatabase("firebaseLocalStorageDb");
 			setUser(null);
@@ -136,7 +146,7 @@ export const UserContextProvider: React.FC<ContextProviderProps> = ({ children }
 			}
 		});
 		return unsubscribe;
-	}, []);
+	}, [token]);
 
 	const contextValue: UserContextValue = {
 		user,
